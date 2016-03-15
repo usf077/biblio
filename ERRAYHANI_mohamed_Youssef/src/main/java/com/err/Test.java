@@ -19,8 +19,13 @@ public class Test {
 	            
 	            connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
 	            if (connection != null) {
-	            	log.log(Level.INFO,"Connexion avec succès");
-	            	log.log(Level.INFO,"La vesrion du driver est : {0}" ,DriverManager.getDriver("jdbc:h2:~/test").getMajorVersion());
+	            	String version = null;
+	            	StringBuilder strVersionBuilder = new StringBuilder();
+	            	strVersionBuilder.append(DriverManager.getDriver("jdbc:h2:~/test").getMajorVersion());
+	            	strVersionBuilder.append('.');
+	            	version = strVersionBuilder.append(DriverManager.getDriver("jdbc:h2:~/test").getMinorVersion()).toString();
+	            	log.log(Level.INFO,"Connexion avec succès");	            	
+	            	log.log(Level.INFO,"La vesrion du driver est : {0}" ,version);
 	            } else {
 	            	log.log(Level.SEVERE,"Erreur de Connexion");
 	            }
