@@ -10,11 +10,12 @@ import java.util.logging.Logger;
 
 public class Test {
 	private static final Logger log= Logger.getLogger( Test.class.getName() );
-	public static void  main(String[] args) {
+	public static void main(String[] args) {
 
 		  log.log(Level.INFO,"————————  Démarrage test de Connexion H2 JDBC ! ————");
 	        try {
 	            Connection connection = null;
+	            
 	            
 	            connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
 	            if (connection != null) {
