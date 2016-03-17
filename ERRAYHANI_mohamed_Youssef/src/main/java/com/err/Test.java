@@ -14,7 +14,7 @@ public class Test {
 
 		  log.log(Level.INFO,"————————  Démarrage test de Connexion H2 JDBC ! ————");
 	        try {
-	            Connection connection = null;
+	            Connection connection  = null;
 	            
 	            
 	            connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
