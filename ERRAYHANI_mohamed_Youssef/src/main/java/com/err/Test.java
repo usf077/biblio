@@ -10,8 +10,7 @@ import java.util.logging.Logger;
 
 public class Test {
 	private static final Logger log= Logger.getLogger( Test.class.getName() );
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void  main(String[] args) {
 
 		  log.log(Level.INFO,"————————  Démarrage test de Connexion H2 JDBC ! ————");
 	        try {
@@ -31,7 +30,7 @@ public class Test {
 	            }
 	        } catch (Exception e) {
 	        	log.log(Level.SEVERE,"Erreur de Connexion");
-	            e.printStackTrace();
+	            log.throwing(Test.class.getName(), "Main",e);
 	        }
 		
 	}
