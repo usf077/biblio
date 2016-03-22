@@ -7,4 +7,13 @@
   </parent>
   <artifactId>biblio-domain</artifactId>
   <groupId>fr.dauphine.lamsade.hib.biblio</groupId>
+  <dependencies>
+        <dependency>
+            <groupId>javax.ejb</groupId>
+            <artifactId>ejb-api</artifactId>
+            <version>3.0</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>
