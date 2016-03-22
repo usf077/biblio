@@ -37,20 +37,21 @@ public class AjouterBibliographie extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
 		Bibliographie b = new Bibliographie();
 		TypeBibliographie tb = new TypeBibliographie();
 		try {
 			b.setSource("www.biblio.fr");
-			b.setDescription("Biblio webographie");
+			b.setLibelle("Biblio webographie");
 			tb.setIdentifiant(1);
 			b.setTypeBibliographie(tb);
 			bibliographieService.AjouterBibliographie(b);
-		} catch (SQLException e) {
+			response.getWriter().append("Bibliographie a bien été ajouté");
+		} catch (Exception e) {
 			logger.log(Level.SEVERE,"Erreur d'appel EJB service",e);
-		}
-		response.getWriter().append("Bibliographie a bien été ajouté");
+		} 
+		
 	}
 
 }

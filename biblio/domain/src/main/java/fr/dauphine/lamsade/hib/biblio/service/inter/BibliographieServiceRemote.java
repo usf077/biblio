@@ -14,8 +14,9 @@ public interface BibliographieServiceRemote {
      * @param b
      * @return état de l'ajout
      * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
-	public int AjouterBibliographie(Bibliographie b) throws SQLException ;
+	public int AjouterBibliographie(Bibliographie b) throws SQLException, ClassNotFoundException ;
 	
 	/**
 	 * 

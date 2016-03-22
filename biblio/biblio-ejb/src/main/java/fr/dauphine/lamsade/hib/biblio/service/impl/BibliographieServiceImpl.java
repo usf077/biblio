@@ -31,29 +31,30 @@ public class BibliographieServiceImpl implements BibliographieServiceRemote {
 	private static Logger logger = Logger.getLogger(BibliographieServiceImpl.class.getCanonicalName());
 
 	@Override
-	public int AjouterBibliographie(Bibliographie b) throws SQLException {
+	public int AjouterBibliographie(Bibliographie b) throws SQLException  {
 		Connection conn=null;
-		PreparedStatement ajoutStetement = null;
+		PreparedStatement ajoutStatement = null;
 		int returnValue = 0;
 		try {
 			conn = DBConnexion.getConnexion();
 			
-			String ajoutSQL = "INSERT INTO bibliographie" + "( source, description, id_type_biblio) VALUES"
+			String ajoutSQL = "INSERT INTO bibliographie" + "( source, libelle, id_type_biblio) VALUES"
 					+ "(?,?,?)";
 			conn.setAutoCommit(false);
-			ajoutStetement = conn.prepareStatement(ajoutSQL,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
-			ajoutStetement.setString(0, b.getSource());
-			ajoutStetement.setString(1, b.getDescription());
-			ajoutStetement.setInt(2,  b.getTypeBibliographie().getIdentifiant());	
+			ajoutStatement = conn.prepareStatement(ajoutSQL,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			ajoutStatement.setString(1, b.getSource());
+			ajoutStatement.setString(2, b.getLibelle());
+			ajoutStatement.setInt(3,  b.getTypeBibliographie().getIdentifiant());	
+			ajoutStatement.executeUpdate();
 			conn.commit();
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, "Erreur EJB Ajout Biblio", e);
 			conn.rollback();
-			logger.log(Level.SEVERE, e, null);
 			returnValue = -1;
 		}finally {
 
-			if (ajoutStetement != null) {
-				ajoutStetement.close();
+			if (ajoutStatement != null) {
+				ajoutStatement.close();
 			}
 			if (conn != null) {
 				conn.close();

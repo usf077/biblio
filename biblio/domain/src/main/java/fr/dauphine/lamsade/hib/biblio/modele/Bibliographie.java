@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class Bibliographie  implements Serializable {
 
 	private int identifiant; 
+	private String libelle;
 	private String source;
-	private String description;
 	private TypeBibliographie typeBibliographie;
 	
 	/**
@@ -25,11 +25,12 @@ public class Bibliographie  implements Serializable {
 	public void setSource(String source) {
 		this.source = source;
 	}
-	public String getDescription() {
-		return description;
+	
+	public String getLibelle() {
+		return libelle;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
 	}
 	public TypeBibliographie getTypeBibliographie() {
 		return typeBibliographie;
