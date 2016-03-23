@@ -57,6 +57,7 @@
         	<groupId>fr.dauphine.lamsade.hib.biblio</groupId>
         	<artifactId>biblio-domain</artifactId>
         	<version>0.1-SNAPSHOT</version>
+        	<type>jar</type>
         </dependency>
         
     </dependencies>
