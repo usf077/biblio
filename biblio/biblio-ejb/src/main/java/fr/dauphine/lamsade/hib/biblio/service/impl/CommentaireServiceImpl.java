@@ -14,7 +14,7 @@ import fr.dauphine.lamsade.hib.biblio.service.inter.CommentaireServiceRemote;
 import fr.dauphine.lamsade.hib.biblio.util.DBConnexion;
 
 /**
- * Session Bean implementation class Bibliotheque
+ * Session Bean implementation class Commentaire
  */
 @Stateless
 public class CommentaireServiceImpl implements CommentaireServiceRemote {
