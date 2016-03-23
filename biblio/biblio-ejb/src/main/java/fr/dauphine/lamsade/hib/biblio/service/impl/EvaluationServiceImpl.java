@@ -13,7 +13,6 @@ import fr.dauphine.lamsade.hib.biblio.modele.Commentaire;
 import fr.dauphine.lamsade.hib.biblio.modele.Evaluation;
 import fr.dauphine.lamsade.hib.biblio.modele.Utilisateur;
 import fr.dauphine.lamsade.hib.biblio.service.inter.EvaluationServiceRemote;
-import fr.dauphine.lamsade.hib.biblio.service.inter.UtilisateurServiceRemote;
 import fr.dauphine.lamsade.hib.biblio.util.DBConnexion;
 
 public class EvaluationServiceImpl implements EvaluationServiceRemote{
@@ -158,8 +157,6 @@ public class EvaluationServiceImpl implements EvaluationServiceRemote{
 		Evaluation ev=null;
 		try {
 			conn = DBConnexion.getConnexion();
-			/*SELECT e.*, u.*, c.* FROM  evaluation e, utilisateur u, commentaire c"
-					+ "where e.id_utilisateur = u.id_utilisateur and e.id_commentaire = c.id_commentaire*/
 			
 			String ajoutSQL = "SELECT * FROM evaluation WHERE id_evaluation = ?";
 			

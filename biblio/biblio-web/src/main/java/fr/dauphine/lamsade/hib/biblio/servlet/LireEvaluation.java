@@ -17,9 +17,6 @@ import fr.dauphine.lamsade.hib.biblio.modele.Bibliographie;
 import fr.dauphine.lamsade.hib.biblio.modele.Evaluation;
 import fr.dauphine.lamsade.hib.biblio.service.inter.EvaluationServiceRemote;
 
-/**
- * Servlet implementation class LireEvaluation
- */
 @WebServlet("/LireEvaluation")
 public class LireEvaluation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -59,7 +56,6 @@ public class LireEvaluation extends HttpServlet {
 		} catch (SQLException e) {
 			logger.log(Level.SEVERE, "Erreur d'appel EJB service", e);
 		}
-	
 	}
 
 	/**

@@ -16,9 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import fr.dauphine.lamsade.hib.biblio.modele.Evaluation;
 import fr.dauphine.lamsade.hib.biblio.service.inter.EvaluationServiceRemote;
 
-/**
- * Servlet implementation class ModifierEvaluation
- */
 @WebServlet("/ModifierEvaluation")
 public class ModifierEvaluation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -33,14 +30,12 @@ public class ModifierEvaluation extends HttpServlet {
      */
     public ModifierEvaluation() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		Evaluation ev = new Evaluation();
 		try {
@@ -60,7 +55,6 @@ public class ModifierEvaluation extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

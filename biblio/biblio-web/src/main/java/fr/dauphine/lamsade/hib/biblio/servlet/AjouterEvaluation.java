@@ -18,9 +18,6 @@ import fr.dauphine.lamsade.hib.biblio.modele.Evaluation;
 import fr.dauphine.lamsade.hib.biblio.modele.Utilisateur;
 import fr.dauphine.lamsade.hib.biblio.service.inter.EvaluationServiceRemote;
 
-/**
- * Servlet implementation class AjouterEvaluation
- */
 @WebServlet("/AjouterEvaluation")
 public class AjouterEvaluation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -35,7 +32,6 @@ public class AjouterEvaluation extends HttpServlet {
      */
     public AjouterEvaluation() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -66,7 +62,6 @@ public class AjouterEvaluation extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
