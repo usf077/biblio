@@ -40,7 +40,7 @@ public class CommentaireServiceImpl implements CommentaireServiceRemote {
 			conn.setAutoCommit(false);
 			ajoutStatement = conn.prepareStatement(ajoutSQL,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
 			ajoutStatement.setInt(1, c.getId());
-			ajoutStatement.setInt(2, c.getUtilisateur().getId());
+			ajoutStatement.setInt(2, c.getUtilisateur().getId_utilisateur());
 			ajoutStatement.setInt(3, c.getBiblio().getIdentifiant());
 			ajoutStatement.setString(4, c.getCommentaire());
 			ajoutStatement.setString(5, c.getDate_commentaire().toString());
