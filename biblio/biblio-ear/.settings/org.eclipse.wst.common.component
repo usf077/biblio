@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="biblio-ear-0.1-SNAPSHOT">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
+        <dependent-module archiveName="biblio-ejb-0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/biblio-ejb/biblio-ejb">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="postgresql-9.1-901-1.jdbc4.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="biblio-web-0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/biblio-web/biblio-web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="biblio-domain-0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/biblio-domain/biblio-domain">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>
