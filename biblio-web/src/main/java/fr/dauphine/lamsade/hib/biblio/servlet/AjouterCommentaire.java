@@ -54,7 +54,7 @@ public class AjouterCommentaire extends HttpServlet {
 			c.setUtilisateur(u);
 			c.setBiblio(b);
 			commentaireService.AjouterCommentaire(c);
-			response.getWriter().append("Bibliographie a bien été ajouté");
+			response.getWriter().append("Bibliographie a bien Ã©tÃ© ajoutÃ©");
 		} catch (Exception e) {
 			logger.log(Level.SEVERE,"Erreur d'appel EJB service",e);
 		} 
