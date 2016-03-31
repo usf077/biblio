@@ -29,7 +29,9 @@ import fr.dauphine.lamsade.hib.biblio.util.DBConnexion;
  * Author : Mohamed Youssef Errayhani 
  * Date : 29/03/2016
  */
-
+/**
+ * @author ADMINIBM
+ */
 /**
  * Session Bean implementation class Bibliotheque
  */
@@ -40,7 +42,7 @@ public class BibliographieServiceImpl extends ServiceImpl<Bibliographie,Bibliogr
 	IDao<TypeBibliographie> daoType;
 	
 	public BibliographieServiceImpl() {
-		this._type =Bibliographie.class;	
+		super(Bibliographie.class);
 	}
 	
 	

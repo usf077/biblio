@@ -11,7 +11,6 @@ public class BibliographieDAO extends BaseDao<Bibliographie> implements IBibliog
 		super(_type);
 	}
 	
-
 	public BibliographieDAO() {
 		super();
 	}
