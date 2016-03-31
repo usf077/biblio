@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import fr.dauphine.lamsade.hib.biblio.modele.BibliographieDTO;
 import fr.dauphine.lamsade.hib.biblio.service.inter.BibliographieServiceRemote;
 
+/*
+ * @author ERRAYHANI Mohamed Youssef
+ */
 /**
  * Servlet implementation class ListerBibliographie
  */

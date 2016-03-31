@@ -15,7 +15,7 @@ import fr.dauphine.lamsade.hib.biblio.service.inter.BibliographieServiceRemote;
 
 
 /**
- * Author : Mohamed Youssef Errayhani 
+ * @author ERRAYHANI Mohamed Youssef
  * Date : 29/03/2016
  */
 

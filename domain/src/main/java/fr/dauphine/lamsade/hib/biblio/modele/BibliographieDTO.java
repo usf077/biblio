@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 /**
- * Author : Mohamed Youssef Errayhani 
+ * @author ERRAYHANI Mohamed Youssef
  * Date : 29/03/2016
  */
 

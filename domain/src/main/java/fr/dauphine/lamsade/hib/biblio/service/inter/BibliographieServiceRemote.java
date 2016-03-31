@@ -7,7 +7,7 @@ import fr.dauphine.lamsade.hib.biblio.modele.BibliographieDTO;
 
 
 /**
- * Author : Mohamed Youssef Errayhani 
+ * @author ERRAYHANI Mohamed Youssef
  * Date : 29/03/2016
  */
 
