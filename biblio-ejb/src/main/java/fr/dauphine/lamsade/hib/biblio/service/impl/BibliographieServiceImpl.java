@@ -4,8 +4,6 @@ package fr.dauphine.lamsade.hib.biblio.service.impl;
 import javax.ejb.Stateless;
 import fr.dauphine.lamsade.hib.biblio.entitiy.Bibliographie;
 import fr.dauphine.lamsade.hib.biblio.entitiy.TypeBibliographie;
-import fr.dauphine.lamsade.hib.biblio.mapper.BibliograhieMapper;
-import fr.dauphine.lamsade.hib.biblio.mapper.IMapper;
 import fr.dauphine.lamsade.hib.biblio.modele.BibliographieDTO;
 import fr.dauphine.lamsade.hib.biblio.modele.TypeBibliographieDTO;
 import fr.dauphine.lamsade.hib.biblio.service.inter.BibliographieServiceRemote;
