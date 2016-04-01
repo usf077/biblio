@@ -30,7 +30,7 @@
                             <input type="text" id="Libelle" name="Libelle" /> 
                             <label>Source</label>
                             <input type="text" id="Source"name="Source"  /> 
-                             <label>Source</label>
+                             <label>Type Bibliographie</label>
                             <select type="text" id="TypeIdentifiant"name="TypeIdentifiant"  > 
                              	<option value="1">Web</option>
                             </select>
