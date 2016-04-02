@@ -1,64 +1,86 @@
 package fr.dauphine.lamsade.hib.biblio.service.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.ejb.Stateless;
 
-import fr.dauphine.lamsade.hib.biblio.modele.Commentaire;
+import fr.dauphine.lamsade.hib.biblio.entitiy.Bibliographie;
+import fr.dauphine.lamsade.hib.biblio.entitiy.Commentaire;
+import fr.dauphine.lamsade.hib.biblio.entitiy.Utilisateur;
+import fr.dauphine.lamsade.hib.biblio.modele.BibliographieDTO;
+import fr.dauphine.lamsade.hib.biblio.modele.CommentaireDTO;
+import fr.dauphine.lamsade.hib.biblio.modele.UtilisateurDTO;
+import fr.dauphine.lamsade.hib.biblio.modele.TypeBibliographieDTO;
+
 import fr.dauphine.lamsade.hib.biblio.service.inter.CommentaireServiceRemote;
-import fr.dauphine.lamsade.hib.biblio.util.DBConnexion;
 
 /**
- * Session Bean implementation class Commentaire
+ * @author Sara BAHJAJI
  */
 @Stateless
-public class CommentaireServiceImpl implements CommentaireServiceRemote {
-
-	private static Logger logger = Logger.getLogger(CommentaireServiceImpl.class.getCanonicalName());
-	
-	/**
-	 * Default constructor.
-	 */
+public class CommentaireServiceImpl extends ServiceImpl<Commentaire, CommentaireDTO>
+		implements CommentaireServiceRemote<Commentaire> {
 	public CommentaireServiceImpl() {
+		super(Commentaire.class);
+	}
+
+	@Override
+	public Commentaire MapFrom(CommentaireDTO cDto) {
+
+		if (cDto.getIdentifiant() != 0) {
+			Commentaire c = em.find(Commentaire.class, cDto.getIdentifiant());
+			c.setCommentaire(cDto.getCommentaire());
+			return c;
+		} else {
+			Commentaire c = new Commentaire();
+			Bibliographie b = em.find(Bibliographie.class, cDto.getBiblio().getIdentifiant());
+			Utilisateur u = em.find(Utilisateur.class, cDto.getUtilisateur().getIdentifiant());
+			c.setUtilisateur(u);
+			c.setCommentaire(cDto.getCommentaire());
+			c.setDateCommentaire(cDto.getDate_commentaire());
+			c.setBibliographie(b);
+
+			return c;
+		}
 
 	}
-	
-	@Override
-	public void AjouterCommentaire(Commentaire c) throws SQLException {
-		Connection conn=null;
-		PreparedStatement ajoutStatement = null;
-		try {
-			conn = DBConnexion.getConnexion();
-			
-			String ajoutSQL = "INSERT INTO commentaire" + "( id_commentaire, id_utilisateur, id_biblio, commentaire, date_commentaire) VALUES"
-					+ "(?,?,?,?,?)";
-			conn.setAutoCommit(false);
-			ajoutStatement = conn.prepareStatement(ajoutSQL,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
-			ajoutStatement.setInt(1, c.getId());
-			ajoutStatement.setInt(2, c.getUtilisateur().getId_utilisateur());
-			ajoutStatement.setInt(3, c.getBiblio().getIdentifiant());
-			ajoutStatement.setString(4, c.getCommentaire());
-			ajoutStatement.setString(5, c.getDate_commentaire().toString());
-			ajoutStatement.executeUpdate();
-			conn.commit();
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, "Erreur EJB Ajout Commentaire", e);
-			conn.rollback();
-		}finally {
 
-			if (ajoutStatement != null) {
-				ajoutStatement.close();
-			}
-			if (conn != null) {
-				conn.close();
-			}
+	@Override
+	public CommentaireDTO MapTo(Commentaire c) {
+		CommentaireDTO cDto = new CommentaireDTO();
+		cDto.setIdentifiant(c.getIdCommentaire());
+		cDto.setCommentaire(c.getCommentaire());
+		cDto.setDate_commentaire(c.getDateCommentaire());
+
+		// bibliographie
+		Bibliographie b = c.getBibliographie();
+		BibliographieDTO bDto = new BibliographieDTO();
+
+		bDto.setLibelle(b.getLibelle());
+		bDto.setSource(b.getSource());
+		if (b.getTypeBibliographie() != null) {
+			TypeBibliographieDTO tbDTO = new TypeBibliographieDTO();
+			tbDTO.setIdentifiant(b.getTypeBibliographie().getIdTypeBiblio());
+			tbDTO.setLibelle(b.getTypeBibliographie().getLibelle());
+			bDto.setTypeBibliographie(tbDTO);
 		}
-		
+
+		cDto.setBiblio(bDto);
+	
+
+		// Utilisateur
+		Utilisateur u = c.getUtilisateur();
+		UtilisateurDTO uDto = new UtilisateurDTO();
+
+		uDto.setIdentifiant(u.getIdUtilisateur());
+		uDto.setAdresse(u.getAdresse());
+		uDto.setMail(u.getMail());
+		uDto.setMot_de_passe(u.getMotDePasse());
+		uDto.setNom(u.getNom());
+		uDto.setPrenom(u.getPrenom());
+		uDto.setTelephone(u.getTelephone());
+
+		cDto.setUtilisateur(uDto);
+		return cDto;
+
 	}
 
 }

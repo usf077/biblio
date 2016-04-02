@@ -1,19 +1,14 @@
 package fr.dauphine.lamsade.hib.biblio.service.inter;
 
-import java.sql.SQLException;
-
 import javax.ejb.Remote;
+import fr.dauphine.lamsade.hib.biblio.modele.CommentaireDTO;
 
-import fr.dauphine.lamsade.hib.biblio.modele.Commentaire;
+/**
+ * 
+ * Date : 31/03/2016
+ */
 
 @Remote
-public interface CommentaireServiceRemote {
-	
-    /**
-     * AjouterCommentaire
-     * @param c
-     * @return
-     * @throws SQLException
-     */
-	public void AjouterCommentaire(Commentaire c) throws SQLException ;
+public interface CommentaireServiceRemote<T> extends ICommonService<T, CommentaireDTO>{
+    
 }
