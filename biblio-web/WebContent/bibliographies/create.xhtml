@@ -1,0 +1,132 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	template="../templates/main.xhtml">
+	<ui:define name="content">
+		<f:view>
+			<f:metadata>
+				<f:event type="preRenderView"
+					listener="#{bibiographieBean.onCreateLoad}" />
+			</f:metadata>
+			<div id="resulat">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Nouvelle Bibliographie</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row bs-wizard text-center" style="border-bottom: 0;">
+
+							<div class="col-xs-3  bs-wizard-step center-block complete">
+								<div class="text-center bs-wizard-stepnum">Créer une
+									Bibliographie</div>
+								<div class="progress">
+									<div class="progress-bar"></div>
+								</div>
+								<a href="#" class="bs-wizard-dot"></a>
+								<div class="bs-wizard-info text-center">Specifier le
+									libellé, la sousce et la description de votre Bibliographie</div>
+							</div>
+
+							<div class="col-xs-3 bs-wizard-step disabled">
+								<!-- complete -->
+								<div class="text-center bs-wizard-stepnum">Specifier les
+									auteurs</div>
+								<div class="progress">
+									<div class="progress-bar"></div>
+								</div>
+								<a href="#" class="bs-wizard-dot"></a>
+								<div class="bs-wizard-info text-center">Specifier autant
+									les auteurs de votre bibliographie</div>
+							</div>
+
+							<div class="col-xs-3 bs-wizard-step disabled">
+								<!-- complete -->
+								<div class="text-center bs-wizard-stepnum">Enregister
+									votre bibliographie</div>
+								<div class="progress">
+									<div class="progress-bar"></div>
+								</div>
+								<a href="#" class="bs-wizard-dot"></a>
+								<div class="bs-wizard-info text-center">Votre
+									bibliographie sera validée et publiée automatiquement</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Bibliographie</h3>
+							</div>
+							<div class="panel-body">
+
+								<div class="form-bottom">
+									<h:form id="bibliographie" class="biblio-form">
+										<div class="form-group">
+											<label class="sr-only" for="form-typeBiblio">Libelle</label>
+											<h:selectOneMenu
+												value="#{bibiographieBean.searchSelectectedType}"
+												class="form-control">
+												<f:selectItem itemLabel="Veuillez choisir un type." itemValue="0" />
+												<f:selectItems
+													value="#{bibiographieBean.typeBibliographies}" var="a"
+													itemLabel="#{a.libelle}" itemValue="#{a.idTypeBiblio}"
+													requiredMessage="Le champ TypeBiblio est obligatoire"
+													title="TypeBiblio" a:placeholder="TypeBiblio"
+													label="TypeBiblio" class="form-typeBiblio form-control"
+													required="true" />
+											</h:selectOneMenu>
+											<h:message for="form-typeBiblio" style="color: red" />
+										</div>
+										<div class="form-group">
+											<label class="sr-only" for="form-libelle">Libelle</label>
+											<h:inputText id="form-libelle"
+												requiredMessage="Le champ libelle est obligatoire"
+												title="Libelle" a:placeholder="Libelle" label="Libelle"
+												value="#{bibiographieBean.biblio.source}"
+												class="form-Prenom form-control" required="true" />
+											<h:message for="form-libelle" style="color: red" />
+										</div>
+										<div class="form-group">
+											<label class="sr-only" for="form-source">Source</label>
+											<h:inputText id="form-source"
+												requiredMessage="Le champ source est obligatoire"
+												title="Source" a:placeholder="Source" label="Source"
+												value="#{bibiographieBean.biblio.source}"
+												class="form-Prenom form-control" required="true" />
+											<h:message for="form-source" style="color: red" />
+										</div>
+										<div class="form-group">
+											<label class="sr-only" for="form-description">Description</label>
+											<h:inputTextarea id="form-description" title="description"
+												label="Description" class="form-description form-control"
+												a:placeholder="Description"
+												requiredMessage="Le champ description est obligatoire"
+												value="#{bibiographieBean.biblio.description}"
+												required="true" />
+											<h:message for="form-description" style="color: red" />
+										</div>
+
+										<div class="btn-group btn-group-justified">
+											<div class="btn-group">
+												<h:commandLink id="submit" type="submit"
+													class="btn btn-danger"
+													action="#{bibiographieBean.CreateBiblio}">
+                                                    Continuer &#xA0; &#xA0;<span
+														class="glyphicon glyphicon-arrow-right"> </span>
+												</h:commandLink>
+											</div>
+
+										</div>
+									</h:form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</f:view>
+	</ui:define>
+</ui:composition>
+

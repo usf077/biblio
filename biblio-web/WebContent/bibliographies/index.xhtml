@@ -1,0 +1,133 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="../templates/main.xhtml">
+	<ui:define name="content">
+
+		<div id="resulat">
+			<h:outputText escape="false"
+				rendered="#{bibiographieBean.dtmdl.rowCount == 0}">
+				<div class="panel panel-default ">
+					<div class="panel-body">#{bibiographieBean.pagination.itemsCount}
+						bibliographies trouvées</div>
+				</div>
+			</h:outputText>
+
+			<h:form>
+				<h:panelGroup rendered="#{bibiographieBean.dtmdl.rowCount > 0}">
+					<div class="panel-group">
+						<div class="panel panel-default ">
+							<div class="panel-body">
+								<h:outputText
+									value="#{bibiographieBean.pagination.pageFirstItem + 1}..#{bibiographieBean.pagination.pageLastItem + 1}/#{bibiographieBean.pagination.itemsCount} bibliographies trouvée(s)" />
+							</div>
+						</div>
+						<h:dataTable value="#{bibiographieBean.dtmdl}" var="item"
+							styleClass="table table1" headerClass="headers"
+							rowClasses="oddRows,evenRows" border="1" cellspacing="0"
+							cellpadding="5" frame="box">
+							<h:column>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										#{item.libelle} <b> <h:outputText
+												value="[#{item.auteursName}]"
+												rendered="#{item.auteurs.size() >0 }" />
+										</b>
+										<h:outputText
+											value="[#{item.commentaires.size()} commentaire(s)]"
+											rendered="#{item.commentaires.size() >0 }" class="pull-right" />
+									</div>
+
+									<div class="panel-body">
+										<div class="col-md-2"
+											style="font-size: 11px; font-weight: bold; text-align: center;">
+											<div class="row">
+												<img
+													src='#{item.utilisateur !=null and item.utilisateur.photoPath !=null   ?  ("../resources/users/thumbnail/".concat(user.photoPath)  ): "../resources/users/NoProfile.png"}'
+													height="150" width="150" />
+											</div>
+											<div class="row">
+												Date inscription:
+												<h:outputText value="#{item.utilisateur.dateInscription}">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</h:outputText>
+											</div>
+										</div>
+										<div class="col-md-2">
+											<div class="row">#{item.utilisateur !=null ?
+												item.utilisateur:""}</div>
+											<div class="row">#{item.utilisateur !=null ?
+												item.utilisateur.age:""} ans</div>
+										</div>
+										<div class="col-md-5">
+											<div class="row">
+												<b>Type bibliographie :</b>
+												#{item.typeBibliographie.libelle}
+											</div>
+											<div class="row">
+												<b> Source bibliographie :</b> #{item.source}
+											</div>
+
+											<div class="row">#{item.description}</div>
+										</div>
+										<div class="col-md-3">
+											<br />
+											<div class="btn-group btn-group-justified">
+												<div class="btn-group">
+													<h:commandLink
+														action="#{bibiographieBean.Detail(item.identifiant)}"
+														class="btn btn-danger">
+														<span class="glyphicon glyphicon-eye-open"></span> Voir </h:commandLink>
+												</div>
+												<div class="btn-group">
+													<h:commandLink
+														action="#{bibiographieBean.Detail(item.identifiant)}"
+														class="btn btn-info">
+														<span class="glyphicon glyphicon-pencil"></span> Commenter </h:commandLink>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</h:column>
+						</h:dataTable>
+						<div class="text-center ">
+							<ul class="pagination">
+
+								<li
+									class="#{!bibiographieBean.pagination.hasPreviousPage ? 'disabled' : ''}  "><h:commandLink
+										action="#{bibiographieBean.previous}"
+										class="glyphicon glyphicon-chevron-left"
+										disabled="#{!bibiographieBean.pagination.hasPreviousPage}" />
+									&#xA0;</li>
+								<c:forEach begin="1"
+									end="#{bibiographieBean.pagination.itemsCount%bibiographieBean.pagination.pageSize==0 ? bibiographieBean.pagination.itemsCount/bibiographieBean.pagination.pageSize : (bibiographieBean.pagination.itemsCount/bibiographieBean.pagination.pageSize) +1 }"
+									var="a">
+									<li
+										class="#{bibiographieBean.pagination.page==(a-1) ? 'active' : ''} "><h:commandLink
+											action="#{bibiographieBean.goToPage(a)}" class="glyphicon"
+											disabled="#{bibiographieBean.pagination.page==(a-1)}"
+											value="#{a}" /> &#xA0;</li>
+								</c:forEach>
+								<li
+									class="#{!bibiographieBean.pagination.hasNextPage ? 'disabled' : '' } ">
+									<h:commandLink action="#{bibiographieBean.next}"
+										class="glyphicon glyphicon-chevron-right"
+										disabled="#{!bibiographieBean.pagination.hasNextPage}" />
+									&#xA0;
+								</li>
+
+							</ul>
+						</div>
+					</div>
+				</h:panelGroup>
+
+
+			</h:form>
+
+		</div>
+	</ui:define>
+</ui:composition>
+

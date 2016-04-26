@@ -1,0 +1,151 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	template="../templates/main.xhtml">
+	<ui:define name="content">
+		<f:view>
+			<f:metadata>
+				<f:event type="preRenderView"
+					listener="#{bibiographieBean.onCreateStep2Load}" />
+			</f:metadata>
+			<div id="resulat">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Specifier les auteurs de votre
+							bibliographie</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row bs-wizard text-center" style="border-bottom: 0;">
+
+							<div class="col-xs-3  bs-wizard-step center-block complete">
+								<div class="text-center bs-wizard-stepnum">Créer une
+									Bibliographie</div>
+								<div class="progress">
+									<div class="progress-bar"></div>
+								</div>
+								<a href="#" class="bs-wizard-dot"></a>
+								<div class="bs-wizard-info text-center">Specifier le
+									libellé, la sousce et la description de votre Bibliographie</div>
+							</div>
+
+							<div class="col-xs-3 bs-wizard-step active">
+								<!-- complete -->
+								<div class="text-center bs-wizard-stepnum">Specifier les
+									auteurs</div>
+								<div class="progress">
+									<div class="progress-bar"></div>
+								</div>
+								<a href="#" class="bs-wizard-dot"></a>
+								<div class="bs-wizard-info text-center">Specifier autant
+									les auteurs de votre bibliographie.</div>
+							</div>
+
+							<div class="col-xs-3 bs-wizard-step disabled">
+								<!-- complete -->
+								<div class="text-center bs-wizard-stepnum">Enregister
+									votre bibliographie</div>
+								<div class="progress">
+									<div class="progress-bar"></div>
+								</div>
+								<a href="#" class="bs-wizard-dot"></a>
+								<div class="bs-wizard-info text-center">Votre
+									bibliographie sera validée et publiée automatiquement</div>
+							</div>
+						</div>
+
+						<h:form>
+							<h:panelGroup>
+								<div class="panel-group">
+									<div class="panel panel-default ">
+										<div class="panel-body">
+											<b>
+												<h:outputText
+												value="auteur(s) spécifié(s)" />
+											</b>
+										</div>
+									</div>
+									<h:dataTable value="#{bibiographieBean.biblio.auteurs}"
+										var="item" styleClass="table table1" binding="#{aut}" headerClass="headers"
+										rowClasses="oddRows,evenRows" border="0" cellspacing="0"
+										cellpadding="5" frame="box">
+										<h:column>
+											<h:panelGroup>
+												<h:form>
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															#{item.nom} #{item.prenom}
+															<h:commandLink immediate="true"  class="close" action="#{bibiographieBean.RemoveAuteur(aut.rowIndex)}">
+																&#215;
+                  											 </h:commandLink>
+														</div>
+														<div class="panel-body">
+															<div class="col-md-2 center-block">
+																<br />
+															</div>
+														</div>
+													</div>
+												</h:form>
+											</h:panelGroup>
+										</h:column>
+									</h:dataTable>
+									<div class="form-bottom">
+										<div class="panel panel-default">
+
+												<div class="panel-heading">
+													<h3 class="panel-title">Nouvel Auteur</h3>
+												</div>
+												<div class="panel-body">
+													<div class="form-bottom">
+														<div class="form-group">
+															<label class="sr-only" for="form-nom">Nom</label>
+															<h:inputText id="form-nom"
+																requiredMessage="Le champ Nom est obligatoire"
+																title="Nom" a:placeholder="Nom" label="Nom"
+																value="#{bibiographieBean.currentAuteurLastName}" class="form-nom form-control"
+																required="true" />
+															<h:message for="form-nom" style="color: red" />
+														</div>
+														<div class="form-group">
+															<label class="sr-only" for="form-prenom">Prenom</label>
+															<h:inputTextarea id="form-prenom" title="description"
+																label="Prenom" class="form-prenom form-control"
+																a:placeholder="Prenom"
+																requiredMessage="Le champ prenom est obligatoire"
+																value="#{bibiographieBean.currentAuteurFirstName}" required="true" />
+															<h:message for="form-prenom" style="color: red" />
+														</div>
+													</div>
+												</div>
+											</div>
+									</div>
+
+								</div>
+							</h:panelGroup>
+							<div class="btn-group btn-group-justified">
+								<div class="btn-group">
+									<h:commandLink id="AddAuteur" type="submit"
+										class="btn btn-info" action="#{bibiographieBean.AddAuteur}">
+										<span class="glyphicon glyphicon-plus-sign"></span> &#xA0; &#xA0;Ajouter Auteur
+                                    </h:commandLink>
+								</div>
+								<div class="btn-group">
+									<h:commandLink id="submit"
+										disabled="#{annonceBean.dtmdlp.rowCount eq 0}" type="submit"
+										class="btn btn-danger #{annonceBean.dtmdlp.rowCount eq 0 ? 'disabled' :'' }"
+										action="#{annonceBean.FinalizeAnnonce}">
+                                        Continuer et publier &#xA0; &#xA0; <span
+											class="glyphicon glyphicon-arrow-right"></span>
+									</h:commandLink>
+								</div>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</f:view>
+	</ui:define>
+</ui:composition>
+

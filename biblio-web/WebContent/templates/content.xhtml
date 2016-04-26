@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    
+    <div class="col-sm-9 main col-md-offset-2 col-sm-offset-2 ">   
+
+        <h:messages style="color: red" showDetail="true" >
+            <div class="alert alert-danger fade" style="display: none;">
+                <a href="#" class="close" data-dismiss="alert">&#215;</a>
+                <strong>Error!</strong>
+            </div>
+            </h:messages>
+            <ui:insert name="content" />      
+    </div>
+</ui:composition>
+

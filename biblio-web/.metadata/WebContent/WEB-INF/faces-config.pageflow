@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14601136610340" configfile="/biblio-web/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="562" id="pf146066461756826" outlinks="pf146066461756827 pf146066461756828 pf14616711918200 pf14616730353382 pf14616730786824 pf14616731444887" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="users/login.xhtml" x="338" y="178" id="pf146066461756830" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf146066461756827" path="/users/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="users/create.xhtml" x="338" y="562" id="pf146066461756831" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf146066461756828" path="/users/create.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="bibliographies/index.xhtml" id="pf14616711918201" referenceLink="//@navigationRule.0/@navigationCase.3/@toViewId|" inlinks="pf14616711918200" path="/bibliographies/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="bibliographies/createStep2.xhtml" id="pf14616730353383" referenceLink="//@navigationRule.0/@navigationCase.5/@toViewId|" inlinks="pf14616730353382" path="/bibliographies/createStep2.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="bibliographies/create.xhtml" id="pf14616730786825" referenceLink="//@navigationRule.0/@navigationCase.4/@toViewId|" inlinks="pf14616730786824" path="/bibliographies/create.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="bibliographies/createStep3.xhtml" id="pf14616731444888" referenceLink="//@navigationRule.0/@navigationCase.5/@toViewId|" inlinks="pf14616731444887" path="/bibliographies/createStep3.xhtml"/>
+  <links id="pf146066461756827" target="pf146066461756830" source="pf146066461756826" outcome="login" redirect="true"/>
+  <links id="pf146066461756828" target="pf146066461756831" source="pf146066461756826" outcome="create"/>
+  <links id="pf14616711918200" target="pf14616711918201" source="pf146066461756826" outcome="app-main" redirect="true"/>
+  <links id="pf14616730353382" target="pf14616730353383" source="pf146066461756826" outcome="createStep2" redirect="true"/>
+  <links id="pf14616730786824" target="pf14616730786825" source="pf146066461756826" outcome="createStep1" redirect="true"/>
+  <links id="pf14616731444887" target="pf14616731444888" source="pf146066461756826" outcome="createStep3" redirect="true"/>
+</pageflow:Pageflow>
