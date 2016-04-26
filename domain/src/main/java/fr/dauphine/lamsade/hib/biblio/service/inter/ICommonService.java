@@ -16,7 +16,7 @@ import javax.ejb.Remote;
  * Le type générique T désigne une Entité, et le type U désigne une classe DTO 
  */
 @Remote
-public interface ICommonService<T,U>{
+public interface ICommonService<T>{
     
     
     /**
@@ -32,7 +32,7 @@ public interface ICommonService<T,U>{
      * Generic method used to get a all objects of a particular type. 
      * @return List of populated objects
      */
-    public List<U> fetch() ;
+    public List<T> fetch() ;
     
     /**
      * Generic method used to get total count.  Should be used in sequence
@@ -49,21 +49,21 @@ public interface ICommonService<T,U>{
      * @param id the identifier (primary key) of the class
      * @return a populated object 
      */
-    public U findById(Serializable _id);
+    public T findById(Serializable _id);
 
     /**
      * Generic method to save an object.
      * @param o the object to save
      * @return the object created
      */
-    public U add(U _o) ;
+    public T add(T _o) ;
     
     /**
      * Generic method to update an object.
      * @param o the object to save
      *  @return the object updated
      */
-    public U update(U _o) ;
+    public T update(T _o) ;
 
 
     /**
@@ -83,9 +83,6 @@ public interface ICommonService<T,U>{
      * @param orderSens
      * @return a restricted list of results
      */
-    public List<U> findRestrictedList (int startPosition, int nbElements, String orderBy, String orderSens );
-    
-    public T MapFrom(U u);
-    public U MapTo(T t);
+    public List<T> findRestrictedList (int startPosition, int nbElements, String orderBy, String orderSens );
     
 }

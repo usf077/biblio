@@ -1,7 +1,8 @@
 package fr.dauphine.lamsade.hib.biblio.service.inter;
 
 import javax.ejb.Remote;
-import fr.dauphine.lamsade.hib.biblio.modele.CommentaireDTO;
+
+import fr.dauphine.lamsade.hib.biblio.modele.Commentaire;
 
 /**
  * 
@@ -9,6 +10,6 @@ import fr.dauphine.lamsade.hib.biblio.modele.CommentaireDTO;
  */
 
 @Remote
-public interface CommentaireServiceRemote<T> extends ICommonService<T, CommentaireDTO>{
+public interface CommentaireServiceRemote extends ICommonService<Commentaire>{
     
 }

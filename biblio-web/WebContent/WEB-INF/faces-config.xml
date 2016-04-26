@@ -4,5 +4,41 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
     version="2.2">
-
+	<lifecycle>
+        <phase-listener>
+            fr.dauphine.lamsade.hib.biblio.util.AuthenticationPhaseListener
+        </phase-listener>
+    </lifecycle>
+   <navigation-rule>
+   <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/users/login.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>create</from-outcome>
+            <to-view-id>/users/create.xhtml</to-view-id>            
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>app-main</from-outcome>
+            <to-view-id>/bibliographies/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>createStep2</from-outcome>
+            <to-view-id>/bibliographies/createStep2.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>createStep1</from-outcome>
+            <to-view-id>/bibliographies/create.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>createStep3</from-outcome>
+            <to-view-id>/bibliographies/createStep3.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+   </navigation-rule>
 </faces-config>

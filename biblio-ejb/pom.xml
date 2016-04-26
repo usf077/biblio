@@ -7,10 +7,7 @@
 		<groupId>fr.dauphine.lamsade.hib.biblio</groupId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-
-	<groupId>fr.dauphine.lamsade.hib.biblio</groupId>
 	<artifactId>biblio-ejb</artifactId>
-	<version>0.1-SNAPSHOT</version>
 	<packaging>ejb</packaging>
 
 	<name>biblio-ejb</name>

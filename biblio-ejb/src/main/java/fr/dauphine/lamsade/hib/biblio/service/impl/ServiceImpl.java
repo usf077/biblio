@@ -2,17 +2,15 @@
 package fr.dauphine.lamsade.hib.biblio.service.impl;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
+import javax.persistence.criteria.Selection;
 
 import fr.dauphine.lamsade.hib.biblio.service.inter.ICommonService;
 
@@ -26,8 +24,9 @@ import fr.dauphine.lamsade.hib.biblio.service.inter.ICommonService;
  * generic CRUD methods.
  * 
  */
-@Stateless
-public abstract class ServiceImpl<T,U> implements ICommonService<T,U> {
+
+
+public abstract class ServiceImpl<T> implements ICommonService<T> {
     
 	protected Class<T> _type;
 	private static final Logger logger = Logger.getLogger(ServiceImpl.class.toString());
@@ -44,29 +43,27 @@ public abstract class ServiceImpl<T,U> implements ICommonService<T,U> {
 	}
 
 
-    public U findById(Serializable _id){
-        return MapTo( em.find(_type, _id));
+    public T findById(Serializable _id){
+        return  em.find(_type, _id);
     }
     
 
-    public List<U> fetch(){
+    @SuppressWarnings("unchecked")
+	public List<T> fetch(){
     	logger.log(Level.INFO, "find all of class " +_type.getName() );
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(_type);
         javax.persistence.Query q = em.createQuery(cq);
-        List<T> resultEntites = q.getResultList();
-    	List<U> resultsDto = new ArrayList<U>();
-    	for (T item : resultEntites) {
-    		resultsDto.add(MapTo(item));
-		}
-        return resultsDto;
+       
+        return q.getResultList();
     }
-
+    
+    @SuppressWarnings("unchecked")
     public int count() {
      	CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery();
+        CriteriaQuery<T> cq = (CriteriaQuery<T>) cb.createQuery();
         Root<T> rt = cq.from(_type);
-        cq.select(em.getCriteriaBuilder().countDistinct(rt));
+        cq.select((Selection<? extends T>) em.getCriteriaBuilder().countDistinct(rt));
         javax.persistence.Query q = em.createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
@@ -78,31 +75,30 @@ public abstract class ServiceImpl<T,U> implements ICommonService<T,U> {
     }
     
 
-    public U add(U _o)  {
-    	 logger.log(Level.INFO, "add object of class " +_type.getName() + " : " + _o);
-    	 T t = MapFrom(_o);
-         em.persist(t);
+    public T add(T _o)  {
+    	 logger.log(Level.INFO, "add object of class " +_type.getName() + " : " + _o);    	
+         em.persist(_o);
          em.flush();
-        return MapTo(t);
+        return _o;
     }
  
 
-    public U update(U _o)  {
+    public T update(T _o)  {
     	logger.log(Level.INFO, "update object of class " +_type.getName() + " : " + _o);
-    	T t = MapFrom(_o);
-    	em.merge( t);
+    	em.merge( _o);
         em.flush();
-        return MapTo(t);
+        return _o;
     }
 
 	public Class<T> getType() {
 		return _type;
 	}
 
-    public List<U> findRestrictedList(int startPosition, int nbElements, String orderBy, String orderSens)
+    @SuppressWarnings("unchecked")
+	public List<T> findRestrictedList(int startPosition, int nbElements, String orderBy, String orderSens)
     {
     	CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery cq = cb.createQuery();
+        CriteriaQuery<T> cq = (CriteriaQuery<T>) cb.createQuery();
         Root<T> rt = cq.from(_type);
         if ( orderSens.equalsIgnoreCase("ASC") )
         {
@@ -115,18 +111,8 @@ public abstract class ServiceImpl<T,U> implements ICommonService<T,U> {
         javax.persistence.Query q = em.createQuery(cq);
          q.setMaxResults(nbElements);
          q.setFirstResult(startPosition);
-        List<T> resultsEntites = q.getResultList();
-
-    	List<U> lstDao = new ArrayList<U>();
-    	for (T item :  resultsEntites) {
-    		lstDao.add(MapTo(item));
-		}
-        return lstDao;
+       
+        return q.getResultList();
     }
 
-
-
-	public abstract T MapFrom(U u) ;
-
-	public abstract U MapTo(T t) ;
 }

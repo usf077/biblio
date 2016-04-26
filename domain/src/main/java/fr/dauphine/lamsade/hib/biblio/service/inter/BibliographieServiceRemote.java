@@ -1,9 +1,12 @@
 package fr.dauphine.lamsade.hib.biblio.service.inter;
 
 
+import java.util.List;
+
 import javax.ejb.Remote;
 
-import fr.dauphine.lamsade.hib.biblio.modele.BibliographieDTO;
+import fr.dauphine.lamsade.hib.biblio.modele.Bibliographie;
+
 
 
 /**
@@ -12,6 +15,9 @@ import fr.dauphine.lamsade.hib.biblio.modele.BibliographieDTO;
  */
 
 @Remote
-public interface BibliographieServiceRemote<T> extends ICommonService<T, BibliographieDTO>{
-    
+public interface BibliographieServiceRemote extends ICommonService<Bibliographie>{
+	
+	public int count(String txt, int idTypeBiblio);
+	public List<Bibliographie>  findSearchRestrictedList(String txt, int idTypeBiblio,int startPosition, int nbElements, String orderBy, String orderSens);
+	  
 }
