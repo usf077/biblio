@@ -39,7 +39,7 @@
 									<div class="progress-bar"></div>
 								</div>
 								<a href="#" class="bs-wizard-dot"></a>
-								<div class="bs-wizard-info text-center">Specifier autant
+								<div class="bs-wizard-info text-center">Specifier
 									les auteurs de votre bibliographie.</div>
 							</div>
 
@@ -61,65 +61,75 @@
 								<div class="panel-group">
 									<div class="panel panel-default ">
 										<div class="panel-body">
-											<b>
-												<h:outputText
-												value="auteur(s) spécifié(s)" />
+											<b> <h:outputText value="#{bibiographieBean.biblio.auteurs.size() } auteur(s) spécifié(s)" />
 											</b>
 										</div>
 									</div>
 									<h:dataTable value="#{bibiographieBean.biblio.auteurs}"
-										var="item" styleClass="table table1" binding="#{aut}" headerClass="headers"
-										rowClasses="oddRows,evenRows" border="0" cellspacing="0"
-										cellpadding="5" frame="box">
+										var="item" styleClass="table table1" binding="#{aut}"
+										headerClass="headers" rowClasses="oddRows,evenRows" border="0"
+										cellspacing="0" cellpadding="5" frame="box">
 										<h:column>
 											<h:panelGroup>
-												<h:form>
-													<div class="panel panel-default">
-														<div class="panel-heading">
-															#{item.nom} #{item.prenom}
-															<h:commandLink immediate="true"  class="close" action="#{bibiographieBean.RemoveAuteur(aut.rowIndex)}">
+												<div class="panel panel-default">
+													<div class="panel-heading">
+														Auteur numéro #{aut.rowIndex +1}
+														<h:commandLink immediate="true" class="close"
+															action="#{bibiographieBean.RemoveAuteur(aut.rowIndex)}">
 																&#215;
                   											 </h:commandLink>
-														</div>
-														<div class="panel-body">
-															<div class="col-md-2 center-block">
-																<br />
-															</div>
-														</div>
 													</div>
-												</h:form>
+													<div class="panel-body">
+														<div class="col-sm-6">
+															<label class="control-label" for="form-nom">Nom
+																:</label>
+															<h:inputText id="form-nom" title="Nom"
+																a:placeholder="Nom" label="Nom" value="#{item.nom}"
+																class="form-nom form-control" disabled="true" />
+														</div>
+														<div class="col-sm-6">
+															<label class="control-label" for="form-prenom">Prenom
+																:</label>
+															<h:inputText label="Prenom" id="form-prenom"
+																class="form-prenom form-control" a:placeholder="Prenom"
+																value="#{item.prenom}" disabled="true" />
+														</div>
+
+													</div>
+												</div>
 											</h:panelGroup>
 										</h:column>
 									</h:dataTable>
 									<div class="form-bottom">
 										<div class="panel panel-default">
 
-												<div class="panel-heading">
-													<h3 class="panel-title">Nouvel Auteur</h3>
-												</div>
-												<div class="panel-body">
-													<div class="form-bottom">
-														<div class="form-group">
-															<label class="sr-only" for="form-nom">Nom</label>
-															<h:inputText id="form-nom"
-																requiredMessage="Le champ Nom est obligatoire"
-																title="Nom" a:placeholder="Nom" label="Nom"
-																value="#{bibiographieBean.currentAuteurLastName}" class="form-nom form-control"
-																required="true" />
-															<h:message for="form-nom" style="color: red" />
-														</div>
-														<div class="form-group">
-															<label class="sr-only" for="form-prenom">Prenom</label>
-															<h:inputTextarea id="form-prenom" title="description"
-																label="Prenom" class="form-prenom form-control"
-																a:placeholder="Prenom"
-																requiredMessage="Le champ prenom est obligatoire"
-																value="#{bibiographieBean.currentAuteurFirstName}" required="true" />
-															<h:message for="form-prenom" style="color: red" />
-														</div>
+											<div class="panel-heading">
+												<h3 class="panel-title">Nouvel Auteur</h3>
+											</div>
+											<div class="panel-body">
+												<div class="form-bottom">
+													<div class="form-group">
+														<label class="sr-only" for="form-nom">Nom</label>
+														<h:inputText id="form-nom"
+															requiredMessage="Le champ Nom est obligatoire"
+															title="Nom" a:placeholder="Nom" label="Nom"
+															value="#{bibiographieBean.currentAuteurLastName}"
+															class="form-nom form-control" required="true" />
+														<h:message for="form-nom" style="color: red" />
+													</div>
+													<div class="form-group">
+														<label class="sr-only" for="form-prenom">Prenom</label>
+														<h:inputText id="form-prenom" title="description"
+															label="Prenom" class="form-prenom form-control"
+															a:placeholder="Prenom"
+															requiredMessage="Le champ prenom est obligatoire"
+															value="#{bibiographieBean.currentAuteurFirstName}"
+															required="true" />
+														<h:message for="form-prenom" style="color: red" />
 													</div>
 												</div>
 											</div>
+										</div>
 									</div>
 
 								</div>
@@ -135,7 +145,7 @@
 									<h:commandLink id="submit"
 										disabled="#{annonceBean.dtmdlp.rowCount eq 0}" type="submit"
 										class="btn btn-danger #{annonceBean.dtmdlp.rowCount eq 0 ? 'disabled' :'' }"
-										action="#{annonceBean.FinalizeAnnonce}">
+										action="#{bibiographieBean.FinalizeBibliographie}">
                                         Continuer et publier &#xA0; &#xA0; <span
 											class="glyphicon glyphicon-arrow-right"></span>
 									</h:commandLink>

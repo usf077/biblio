@@ -7,10 +7,14 @@ import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
+
+import org.eclipse.persistence.annotations.JoinFetchType;
 
 import fr.dauphine.lamsade.hib.biblio.modele.Auteur;
 import fr.dauphine.lamsade.hib.biblio.modele.Bibliographie;
@@ -36,8 +40,35 @@ public class BibliographieServiceImpl extends ServiceImpl<Bibliographie> impleme
 
 	@Override
 	public int count(String txt, int idTypeBiblio) {
-		// TODO Auto-generated method stub
-		return 0;
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		Metamodel m = em.getMetamodel();
+		EntityType<Bibliographie> Bibliographie_ =  m.entity(Bibliographie.class);
+        Expression e=null;
+        CriteriaQuery cq = cb.createQuery();
+        Root<Bibliographie> biblio = cq.from(Bibliographie.class);
+        Join<Bibliographie, Auteur> auteur = (Join<Bibliographie, Auteur>) biblio.fetch(Bibliographie_.getList("auteurs", Auteur.class) , JoinType.LEFT);
+        Join<Bibliographie, Commentaire> commentaire = (Join<Bibliographie, Commentaire>) biblio.fetch(Bibliographie_.getList("commentaires", Commentaire.class), JoinType.LEFT);
+        Join<Bibliographie, TypeBibliographie> Typebiblio = (Join<Bibliographie, TypeBibliographie>) biblio.fetch(Bibliographie_.getSingularAttribute("typeBibliographie", TypeBibliographie.class), JoinType.LEFT);
+        
+        if (idTypeBiblio != 0) {
+            e = cb.equal(Typebiblio.get("idTypeBiblio"), idTypeBiblio);
+        }
+      if (txt != null && !txt.isEmpty()) {
+            if (e == null) {
+                e = cb.or(cb.like(cb.lower(biblio.get("libelle")), "%" + txt.toLowerCase() + "%"), cb.like(cb.lower(biblio.get("source")), "%" + txt.toLowerCase() + "%"), cb.like(cb.lower(biblio.get("nom")), "%" + txt.toLowerCase() + "%"),
+                        cb.like(cb.lower(biblio.get("prenom")), "%" + txt.toLowerCase() + "%"));
+            } else {
+                e = cb.and(e, cb.or(cb.like(cb.lower(biblio.get("libelle")), "%" + txt.toLowerCase() + "%"), cb.like(cb.lower(biblio.get("source")), "%" + txt.toLowerCase() + "%"), cb.like(cb.lower(biblio.get("nom")), "%" + txt.toLowerCase() + "%"),
+                        cb.like(cb.lower(biblio.get("prenom")), "%" + txt.toLowerCase() + "%")));
+            }
+        }
+        if (e!=null){
+            cq.where(e);
+        }
+        cq.select(biblio).distinct(true);
+        cq.select(em.getCriteriaBuilder().countDistinct(biblio));
+        javax.persistence.Query q = em.createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
 	}
 
 	@Override
@@ -46,25 +77,23 @@ public class BibliographieServiceImpl extends ServiceImpl<Bibliographie> impleme
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		Metamodel m = em.getMetamodel();
 		EntityType<Bibliographie> Bibliographie_ =  m.entity(Bibliographie.class);
-		EntityType<TypeBibliographie> TypeBibliographie_ =  m.entity(TypeBibliographie.class);
         Expression e=null;
         CriteriaQuery cq = cb.createQuery();
         Root<Bibliographie> biblio = cq.from(Bibliographie.class);
-        Join<Bibliographie, Auteur> auteur = biblio.join(Bibliographie_.getList("auteurs", Auteur.class));
-        Join<Bibliographie, Commentaire> commentaire = biblio.join(Bibliographie_.getList("commentaires", Commentaire.class));
-        Join<Bibliographie, TypeBibliographie> Typebiblio = biblio.join(Bibliographie_.getSingularAttribute("typeBibliographie", TypeBibliographie.class));
-        biblio.fetch(Bibliographie_.getList("auteurs"));
-        biblio.fetch(Bibliographie_.getList("commentaires"));
+        Join<Bibliographie, Auteur> auteur = (Join<Bibliographie, Auteur>) biblio.fetch(Bibliographie_.getList("auteurs", Auteur.class) , JoinType.LEFT);
+        Join<Bibliographie, Commentaire> commentaire = (Join<Bibliographie, Commentaire>) biblio.fetch(Bibliographie_.getList("commentaires", Commentaire.class), JoinType.LEFT);
+        Join<Bibliographie, TypeBibliographie> Typebiblio = (Join<Bibliographie, TypeBibliographie>) biblio.fetch(Bibliographie_.getSingularAttribute("typeBibliographie", TypeBibliographie.class), JoinType.LEFT);
+        
         if (idTypeBiblio != 0) {
             e = cb.equal(Typebiblio.get("idTypeBiblio"), idTypeBiblio);
         }
       if (txt != null && !txt.isEmpty()) {
             if (e == null) {
-                e = cb.or(cb.like(cb.lower(biblio.get("libelle")), "%" + txt.toLowerCase() + "%"), cb.like(cb.lower(biblio.get("source")), "%" + txt.toLowerCase() + "%"), cb.like(cb.lower(auteur.get("nom")), "%" + txt.toLowerCase() + "%"),
-                        cb.like(cb.lower(auteur.get("prenom")), "%" + txt.toLowerCase() + "%"));
+                e = cb.or(cb.like(cb.lower(biblio.get("libelle")), "%" + txt.toLowerCase() + "%"), cb.like(cb.lower(biblio.get("source")), "%" + txt.toLowerCase() + "%"), cb.like(cb.lower(biblio.get("nom")), "%" + txt.toLowerCase() + "%"),
+                        cb.like(cb.lower(biblio.get("prenom")), "%" + txt.toLowerCase() + "%"));
             } else {
-                e = cb.and(e, cb.or(cb.like(cb.lower(biblio.get("libelle")), "%" + txt.toLowerCase() + "%"), cb.like(cb.lower(biblio.get("source")), "%" + txt.toLowerCase() + "%"), cb.like(cb.lower(auteur.get("nom")), "%" + txt.toLowerCase() + "%"),
-                        cb.like(cb.lower(auteur.get("prenom")), "%" + txt.toLowerCase() + "%")));
+                e = cb.and(e, cb.or(cb.like(cb.lower(biblio.get("libelle")), "%" + txt.toLowerCase() + "%"), cb.like(cb.lower(biblio.get("source")), "%" + txt.toLowerCase() + "%"), cb.like(cb.lower(biblio.get("nom")), "%" + txt.toLowerCase() + "%"),
+                        cb.like(cb.lower(biblio.get("prenom")), "%" + txt.toLowerCase() + "%")));
             }
         }
         if (e!=null){

@@ -10,30 +10,37 @@
             <div id="resulat" >
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Ajouter des Produits à votre annonce</h3>
+                        <h3 class="panel-title">Specifier les auteurs de votre
+							bibliographie</h3>
                     </div>
                     <div class="panel-body">
                         <div class="row bs-wizard text-center" style="border-bottom:0;">
 
                             <div class="col-xs-3  bs-wizard-step center-block complete">
-                                <div class="text-center bs-wizard-stepnum">Ajouter une Annonce</div>
+                                <div class="text-center bs-wizard-stepnum">Créer une
+									Bibliographie</div>
                                 <div class="progress"><div class="progress-bar"></div></div>
                                 <a href="#" class="bs-wizard-dot"></a>
-                                <div class="bs-wizard-info text-center">Specifier le nom et la description de votre Annonce</div>
+                                <div class="bs-wizard-info text-center">Specifier le
+									libellé, la sousce et la description de votre Bibliographie</div>
                             </div>
 
                             <div class="col-xs-3 bs-wizard-step complete"><!-- complete -->
-                                <div class="text-center bs-wizard-stepnum">Ajouter des produit</div>
+                                <div class="text-center bs-wizard-stepnum">Specifier les
+									auteurs</div>
                                 <div class="progress"><div class="progress-bar"></div></div>
                                 <a href="#" class="bs-wizard-dot"></a>
-                                <div class="bs-wizard-info text-center">Ajouter autant de produit que vous  voullez, et spécifier leurs prix. </div>
+                                <div class="bs-wizard-info text-center">Specifier 
+									les auteurs de votre bibliographie. </div>
                             </div>
 
                             <div class="col-xs-3 bs-wizard-step active"><!-- complete -->
-                                <div class="text-center bs-wizard-stepnum">Publier votre</div>
+                                <div class="text-center bs-wizard-stepnum">Enregister
+									votre bibliographie</div>
                                 <div class="progress"><div class="progress-bar"></div></div>
                                 <a href="#" class="bs-wizard-dot"></a>
-                                <div class="bs-wizard-info text-center">Votre annonce sera publier après la validation de nos administrateurs</div>
+                                <div class="bs-wizard-info text-center">Votre
+									bibliographie sera validée et publiée automatiquement</div>
                             </div>             
                         </div>
 
@@ -41,39 +48,20 @@
                             <div class="panel-group">
                                 <div class="panel panel-default ">
                                     <div class="panel-heading">
-                                        <h:outputText   value="#{annonceBean.annonce.libelle}, Nombre de produit : #{annonceBean.annonce.lstProduit.size() }" />  
-                                        <h:outputText   value=" Totale : #{annonceBean.annonce.prix}0 €" class="pull-right" />    
+                                       <b> <h:outputText   value="#{bibiographieBean.biblio.libelle}, Source :  #{bibiographieBean.biblio.source}" /></b>  
+                                        <b> <h:outputText   value=" auteur(s) : #{bibiographieBean.biblio.auteursName}" class="pull-right" />    </b>
                                     </div>
                                     <div class="panel-body">
-                                        <h:outputText   value="#{annonceBean.annonce.description}" />
+                                        <h:outputText   value="#{bibiographieBean.biblio.description}" />
                                     </div>
                                 </div>
-                                <h:dataTable value="#{annonceBean.annonce.lstProduit}" var="item" styleClass="table table1" headerClass="headers" rowClasses="oddRows,evenRows" border="0" cellspacing="0" cellpadding="5" frame="box">     
-                                    <h:column>
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                #{item.nom} ( #{item.prix} € )    
-                                            </div>
-                                            <div class="panel-body"> 
-                                                <div class="col-md-2" >
-                                                    <h:graphicImage value="#{ empty item.imgesUrl ? '../resources/products/imageNotFound.jpg' : '../resources/products/thumbnail/'.concat(item.imgesUrl) }" height="150" width="150"/>
-                                                </div>
-                                                <div class="col-md-8" >
-                                                    <div class="row">
-                                                        #{item.description} 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> 
-                                    </h:column>
-                                </h:dataTable>
                             </div>
                         </h:panelGroup>
                         <h:form>
 
                             <div class="btn-group btn-group-justified">
                                 <div class="btn-group">
-                                    <h:commandLink id="submit"   type="submit" class="btn btn-danger" action="#{annonceBean.PublishAnnonce}" >
+                                    <h:commandLink id="submit"   type="submit" class="btn btn-danger" action="#{bibiographieBean.Save}" >
                                         Publier &#xA0; &#xA0;<span class="glyphicon glyphicon-download-al"> </span> 
                                     </h:commandLink>
                                 </div>

@@ -66,16 +66,16 @@
 										<div class="form-group">
 											<label class="sr-only" for="form-typeBiblio">Libelle</label>
 											<h:selectOneMenu
-												value="#{bibiographieBean.searchSelectectedType}"
+												value="#{bibiographieBean.createBiblioSelectectedType}"
 												class="form-control">
-												<f:selectItem itemLabel="Veuillez choisir un type." itemValue="0" />
+												<f:selectItem itemLabel="Veuillez choisir un type "  requiredMessage="Le champ TypeBiblio est obligatoire"
+													title="TypeBiblio" a:placeholder="TypeBiblio"
+													label="TypeBiblio" class="form-typeBiblio form-control"
+													required="true"/>
 												<f:selectItems
 													value="#{bibiographieBean.typeBibliographies}" var="a"
 													itemLabel="#{a.libelle}" itemValue="#{a.idTypeBiblio}"
-													requiredMessage="Le champ TypeBiblio est obligatoire"
-													title="TypeBiblio" a:placeholder="TypeBiblio"
-													label="TypeBiblio" class="form-typeBiblio form-control"
-													required="true" />
+													 />
 											</h:selectOneMenu>
 											<h:message for="form-typeBiblio" style="color: red" />
 										</div>
@@ -84,7 +84,7 @@
 											<h:inputText id="form-libelle"
 												requiredMessage="Le champ libelle est obligatoire"
 												title="Libelle" a:placeholder="Libelle" label="Libelle"
-												value="#{bibiographieBean.biblio.source}"
+												value="#{bibiographieBean.biblio.libelle}"
 												class="form-Prenom form-control" required="true" />
 											<h:message for="form-libelle" style="color: red" />
 										</div>

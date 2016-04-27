@@ -32,17 +32,17 @@ public class Bibliographie implements Serializable {
 	private String auteursName;
 
 	//bi-directional many-to-one association to TypeBibliographie
-	@ManyToOne
+	@ManyToOne 
 	@JoinColumn(name="id_type_biblio")
 	private TypeBibliographie typeBibliographie;
 
 	//bi-directional many-to-one association to Utilisateur
-	@ManyToOne
+	@ManyToOne 
 	@JoinColumn(name="id_utilisateur")
 	private Utilisateur utilisateur;
 
 	//bi-directional many-to-many association to Auteur
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.PERSIST)
 	@JoinTable(
 		name="bibliographoe_auteur"
 		, joinColumns={
