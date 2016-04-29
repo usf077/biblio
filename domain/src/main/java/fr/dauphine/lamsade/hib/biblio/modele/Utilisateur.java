@@ -49,8 +49,21 @@ public class Utilisateur implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="date_naissance")
 	private Date dateNaissance;
+	
 	@Transient
 	private int age;
+	
+
+	@Transient
+	private boolean isEditable;
+
+	public boolean isEditable() {
+		return isEditable;
+	}
+
+	public void setEditable(boolean isEditable) {
+		this.isEditable = isEditable;
+	}
 
 	public int getAge(){	
 		  Calendar birthDay = Calendar.getInstance();

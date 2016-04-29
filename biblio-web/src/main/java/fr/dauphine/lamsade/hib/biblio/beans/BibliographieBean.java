@@ -36,16 +36,15 @@ public class BibliographieBean {
 	private String searchTxt;
 	public List<TypeBibliographie> typeBibliographies;
 	private Bibliographie biblio;
-    private int createBiblioSelectectedType;
-    
+	private int createBiblioSelectectedType;
+
 	private String currentAuteurFirstName;
 	private String currentAuteurLastName;
 
-	public void getListeBibliographie() {
-
-	}
-
 	public DataModel getDtmdl() {
+		if (dtmdl == null) {
+			dtmdl = getPagination().createPageDataModel();
+		}
 		return dtmdl;
 	}
 
@@ -97,6 +96,7 @@ public class BibliographieBean {
 	public void setCurrentAuteurFirstName(String currentAuteurFirstName) {
 		this.currentAuteurFirstName = currentAuteurFirstName;
 	}
+
 	public int getCreateBiblioSelectectedType() {
 		return createBiblioSelectectedType;
 	}
@@ -104,6 +104,7 @@ public class BibliographieBean {
 	public void setCreateBiblioSelectectedType(int createBiblioSelectectedType) {
 		this.createBiblioSelectectedType = createBiblioSelectectedType;
 	};
+
 	public String getCurrentAuteurLastName() {
 		return currentAuteurLastName;
 	}
@@ -112,6 +113,7 @@ public class BibliographieBean {
 		this.currentAuteurLastName = currentAuteurLastName;
 	}
 
+	@SuppressWarnings("unchecked")
 	public PaginationHelper getPagination() {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = facesContext.getExternalContext();
@@ -122,7 +124,7 @@ public class BibliographieBean {
 			pagination = new PaginationHelper(10) {
 				@Override
 				public int getItemsCount() {
-					return bibliographieService.count(searchTxt,searchSelectectedType);
+					return bibliographieService.count(searchTxt, searchSelectectedType);
 				}
 
 				@Override
@@ -172,34 +174,30 @@ public class BibliographieBean {
 	}
 
 	public String Save() {
-        FacesContext context = FacesContext.getCurrentInstance();
+		FacesContext context = FacesContext.getCurrentInstance();
 
-        try {
+		try {
 
-            Utilisateur user = (Utilisateur) context.getExternalContext().getSessionMap().get(UsersBean.USER_SESSION_KEY);
-            biblio.setUtilisateur(user);
-            TypeBibliographie tb = typebibliographieService.findById(createBiblioSelectectedType);
-            
-            if(tb!=null){
-            	biblio.setTypeBibliographie(tb);
-            }
-              bibliographieService.add(biblio);
-              recreateModel();
-              biblio = null;
+			Utilisateur user = (Utilisateur) context.getExternalContext().getSessionMap()
+					.get(UsersBean.USER_SESSION_KEY);
+			biblio.setUtilisateur(user);
+			TypeBibliographie tb = typebibliographieService.findById(createBiblioSelectectedType);
 
-        } catch (Exception e) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Error creating bibliographie!",
-                    "Unexpected error when creating the biblio.  Please contact the system Administrator");
-            context.addMessage(null, message);
-            logger.log(Level.SEVERE,
-                    "Unable to create the new bibliographie",
-                    e);
-        }
-        return "bibliographie_creee";
-    }
+			if (tb != null) {
+				biblio.setTypeBibliographie(tb);
+			}
+			bibliographieService.add(biblio);
+			recreateModel();
+			biblio = null;
 
-	
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error creating bibliographie!",
+					"Unexpected error when creating the biblio.  Please contact the system Administrator");
+			context.addMessage(null, message);
+			logger.log(Level.SEVERE, "Unable to create the new bibliographie", e);
+		}
+		return "bibliographie_creee";
+	}
 
 	public String FinalizeBibliographie() {
 		if (!currentAuteurFirstName.isEmpty() && !currentAuteurLastName.isEmpty()) {
@@ -244,12 +242,14 @@ public class BibliographieBean {
 		return "home";
 	}
 
-	public String init() {
-
-		searchTxt = null;
-		searchSelectectedType = 0;
-		dtmdl = null;
-		return "app-main";
-	}
+	
+	 public void init() {
+	    	if (!FacesContext.getCurrentInstance().isPostback()) {
+	    		searchTxt = null;
+	    		searchSelectectedType = 0;
+	    		dtmdl = null;
+	    	}
+		}
+	
 
 }

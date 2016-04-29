@@ -10,7 +10,11 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Bibliographie.findAll", query="SELECT b FROM Bibliographie b")
+@NamedQueries(value={
+		@NamedQuery(name="Bibliographie.findAll", query="SELECT b FROM Bibliographie b"),
+		@NamedQuery(name="Bibliographie.findByIdBiblio", query="SELECT b FROM Bibliographie b  LEFT JOIN b.auteurs aut WHERE b.idBiblio = :idBiblio")
+})
+
 public class Bibliographie implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -60,6 +64,18 @@ public class Bibliographie implements Serializable {
 
 	public Bibliographie() {
 	}
+	
+	@Transient
+	private boolean isEditable;
+
+	public boolean isEditable() {
+		return isEditable;
+	}
+
+	public void setEditable(boolean isEditable) {
+		this.isEditable = isEditable;
+	}
+
 
 	public Integer getIdBiblio() {
 		return this.idBiblio;

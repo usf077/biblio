@@ -7,19 +7,16 @@ import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
-
-import org.eclipse.persistence.annotations.JoinFetchType;
-
 import fr.dauphine.lamsade.hib.biblio.modele.Auteur;
 import fr.dauphine.lamsade.hib.biblio.modele.Bibliographie;
 import fr.dauphine.lamsade.hib.biblio.modele.Commentaire;
 import fr.dauphine.lamsade.hib.biblio.modele.TypeBibliographie;
+import fr.dauphine.lamsade.hib.biblio.modele.Utilisateur;
 import fr.dauphine.lamsade.hib.biblio.service.inter.BibliographieServiceRemote;
 
 /**
@@ -38,6 +35,7 @@ public class BibliographieServiceImpl extends ServiceImpl<Bibliographie> impleme
 		super(Bibliographie.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int count(String txt, int idTypeBiblio) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -71,6 +69,7 @@ public class BibliographieServiceImpl extends ServiceImpl<Bibliographie> impleme
         return ((Long) q.getSingleResult()).intValue();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Bibliographie> findSearchRestrictedList(String txt, int idTypeBiblio, int startPosition, int nbElements,
 			String orderBy, String orderSens) {
@@ -114,6 +113,21 @@ public class BibliographieServiceImpl extends ServiceImpl<Bibliographie> impleme
         return q.getResultList();
        
 
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Bibliographie findByIdAndFetchAuteurs(int id) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		Metamodel m = em.getMetamodel();
+		EntityType<Bibliographie> Bibliographie_ =  m.entity(Bibliographie.class);
+        CriteriaQuery cq = cb.createQuery();
+        Root<Bibliographie> biblio = cq.from(Bibliographie.class);
+        Join<Bibliographie, Auteur> auteur = (Join<Bibliographie, Auteur>) biblio.fetch(Bibliographie_.getList("auteurs", Auteur.class) , JoinType.LEFT);
+       
+        cq.select(biblio).where(cb.equal(biblio.get("idBiblio"), id)).distinct(true);
+        javax.persistence.Query q = em.createQuery(cq);
+        return  (Bibliographie) q.getSingleResult();
 	}
 
 	

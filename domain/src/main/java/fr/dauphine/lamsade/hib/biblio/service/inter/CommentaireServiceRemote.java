@@ -1,5 +1,7 @@
 package fr.dauphine.lamsade.hib.biblio.service.inter;
 
+import java.util.List;
+
 import javax.ejb.Remote;
 
 import fr.dauphine.lamsade.hib.biblio.modele.Commentaire;
@@ -11,5 +13,10 @@ import fr.dauphine.lamsade.hib.biblio.modele.Commentaire;
 
 @Remote
 public interface CommentaireServiceRemote extends ICommonService<Commentaire>{
-    
+	
+	int count(int idBiblio);
+
+	List<Commentaire> findByIdBiblio(int idBiblio,int startPosition, int nbElements);
+	
+
 }

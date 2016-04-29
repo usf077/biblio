@@ -11,7 +11,11 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Commentaire.findAll", query="SELECT c FROM Commentaire c")
+@NamedQueries(value ={
+		@NamedQuery(name="Commentaire.findAll", query="SELECT c FROM Commentaire c"),
+		@NamedQuery(name="Commenaite.countByIdBiblio" , query="SELECT count(c) from Commentaire c WHERE c.bibliographie.idBiblio = :idBiblio"),
+		@NamedQuery(name="Commenaite.findByIdBiblio" , query="SELECT c from Commentaire c WHERE c.bibliographie.idBiblio = :idBiblio ORDER BY c.dateCommentaire DESC")
+})
 public class Commentaire implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +34,7 @@ public class Commentaire implements Serializable {
 	private Integer version;
 
 	//bi-directional many-to-one association to Bibliographie
-	@ManyToOne
+	@ManyToOne (cascade=CascadeType.MERGE)
 	@JoinColumn(name="id_biblio")
 	private Bibliographie bibliographie;
 
@@ -42,6 +46,17 @@ public class Commentaire implements Serializable {
 	//bi-directional many-to-one association to Evaluation
 	@OneToMany(mappedBy="commentaire")
 	private List<Evaluation> evaluations;
+	
+	@Transient
+	private boolean isEditable;
+
+	public boolean isEditable() {
+		return isEditable;
+	}
+
+	public void setEditable(boolean isEditable) {
+		this.isEditable = isEditable;
+	}
 
 	public Commentaire() {
 	}

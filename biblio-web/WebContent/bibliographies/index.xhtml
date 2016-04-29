@@ -5,16 +5,17 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="../templates/main.xhtml">
 	<ui:define name="content">
-
+		<f:metadata>
+			<f:event type="preRenderView" listener="#{bibiographieBean.init}" />
+		</f:metadata>
 		<div id="resulat">
 			<h:outputText escape="false"
-				rendered="#{bibiographieBean.dtmdl.rowCount == 0}">
+				rendered="#{bibiographieBean.dtmdl.rowCount eq 0}">
 				<div class="panel panel-default ">
 					<div class="panel-body">#{bibiographieBean.pagination.itemsCount}
 						bibliographies trouvées</div>
 				</div>
 			</h:outputText>
-
 			<h:form>
 				<h:panelGroup rendered="#{bibiographieBean.dtmdl.rowCount > 0}">
 					<div class="panel-group">
@@ -45,7 +46,7 @@
 											style="font-size: 11px; font-weight: bold; text-align: center;">
 											<div class="row">
 												<img
-													src='#{item.utilisateur !=null and item.utilisateur.photoPath !=null   ?  ("../resources/users/thumbnail/".concat(user.photoPath)  ): "../resources/users/NoProfile.png"}'
+													src='#{item.utilisateur !=null and item.utilisateur.photoPath !=null   ?  ("../resources/users/thumbnail/".concat(item.utilisateur.photoPath.photoPath)  ): "../resources/users/NoProfile.png"}'
 													height="150" width="150" />
 											</div>
 											<div class="row">
@@ -77,15 +78,18 @@
 											<div class="btn-group btn-group-justified">
 												<div class="btn-group">
 													<h:commandLink
-														action="#{bibiographieBean.Detail(item.identifiant)}"
+														action="#{CommentaireBean.Comment(item.idBiblio)}"
 														class="btn btn-danger">
-														<span class="glyphicon glyphicon-eye-open"></span> Voir </h:commandLink>
+														<span class="glyphicon glyphicon-eye-open"></span> Voir
+														
+													</h:commandLink>
 												</div>
 												<div class="btn-group">
 													<h:commandLink
-														action="#{bibiographieBean.Detail(item.identifiant)}"
+														action="#{CommentaireBean.Comment(item.idBiblio)}"
 														class="btn btn-info">
 														<span class="glyphicon glyphicon-pencil"></span> Commenter </h:commandLink>
+
 												</div>
 											</div>
 										</div>
