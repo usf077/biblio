@@ -26,6 +26,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import fr.dauphine.lamsade.hib.biblio.modele.TypeBibliographie;
 import fr.dauphine.lamsade.hib.biblio.modele.Utilisateur;
 import fr.dauphine.lamsade.hib.biblio.service.inter.UtilisateurServiceRemote;
 
@@ -53,6 +54,8 @@ public class UsersBean {
     private UtilisateurServiceRemote userService;
     
     public static final String USER_SESSION_KEY = "user";
+    
+    private static Logger logger = Logger.getLogger(UsersBean.class.getCanonicalName());
     /**
      * Creates a new instance of UsersBean
      */
@@ -264,7 +267,56 @@ public class UsersBean {
         }        
     }
      
-      public String updateUser(){
+      public String update(){
+    	  FacesContext context = FacesContext.getCurrentInstance();
+    	  Utilisateur user = (Utilisateur) context.getExternalContext().getSessionMap()
+					.get(UsersBean.USER_SESSION_KEY);
+    	  adresse = user.getAdresse();
+    	  email= user.getMail();
+    	  password=user.getMotDePasse();
+    	  passwordV = user.getMotDePasse();
+    	  nom =user.getNom();
+    	  prenom =user.getPrenom();
+    	  telephone =user.getTelephone();
+    	  imagePath =user.getPhotoPath();
+  	  
+    	  return "create";
+      }
+      public String updateAndSave(){
+    	  FacesContext context = FacesContext.getCurrentInstance();
+    	  try {
+
+  			Utilisateur user = (Utilisateur) context.getExternalContext().getSessionMap()
+  					.get(UsersBean.USER_SESSION_KEY);
+  			
+  			
+  			user.setAdresse(adresse);
+  			user.setMail(email);
+  			user.setMotDePasse(password);
+  			user.setNom(nom);
+  			user.setPrenom(prenom);
+  			user.setTelephone(telephone);
+  			if(imageFile!=null){
+  				 try {
+                     saveImage();
+                     user.setPhotoPath(imagePath);
+                 } catch (IOException ex) {
+                     FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                             "Error uploqding image!",
+                             "Unexpected error when uploqding the image.  Please contact the system Administrator");
+                     context.addMessage(null, message);
+                     Logger.getAnonymousLogger().log(Level.SEVERE,
+                             "Unable to upload the image",
+                             ex);
+                 }
+  			}
+  			userService.update(user);
+  		} catch (Exception e) {
+  			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error updating Utilisateur!",
+  					"Unexpected error when updating the User.  Please contact the system Administrator");
+  			context.addMessage(null, message);
+  			logger.log(Level.SEVERE, "Unable to update theUser", e);
+  		}
     	  return null;
       }
   
@@ -280,6 +332,7 @@ public class UsersBean {
      public void validateFile(FacesContext ctx,
              UIComponent comp,
              Object value) {
+    	 if (value ==null) return;
          List<FacesMessage> msgs = new ArrayList<FacesMessage>();
          Part file = (Part) value;
          if (file.getSize() > (long) 1048576) {

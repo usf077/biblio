@@ -2,6 +2,7 @@ package fr.dauphine.lamsade.hib.biblio.service.impl;
 
 
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -110,6 +111,7 @@ public class BibliographieServiceImpl extends ServiceImpl<Bibliographie> impleme
         javax.persistence.Query q = em.createQuery(cq);
         q.setMaxResults(nbElements);
         q.setFirstResult(startPosition);
+        logger.log(Level.INFO, "find findSearchRestrictedList of class " +_type.getName() + "size :"  + q.getResultList().size() );
         return q.getResultList();
        
 

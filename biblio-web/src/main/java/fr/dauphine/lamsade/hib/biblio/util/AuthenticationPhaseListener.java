@@ -91,7 +91,8 @@ public class AuthenticationPhaseListener implements PhaseListener {
     private boolean requestingSecureView(FacesContext context) {
         ExternalContext extContext = context.getExternalContext();       
         String path = extContext.getRequestPathInfo();
-        return false ;//(!"/users/login.xhtml".equals(path) && !"/users/create.xhtml".equals(path) && !"/bibliographie/index.jsp".equals(path) && !"bibliographie/ListeBibliographies.jsp".equals(path));              
+        //return false ;
+        return(!"/users/login.xhtml".equals(path) && !"/users/createOrUpdate.xhtml".equals(path) && !"/bibliographies/index.xhtml".equals(path) );              
     }
 
 }

@@ -5,9 +5,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="../templates/main.xhtml">
 	<ui:define name="content">
-		<f:metadata>
-			<f:event type="preRenderView" listener="#{bibiographieBean.init}" />
-		</f:metadata>
+		
 		<div id="resulat">
 			<h:outputText escape="false"
 				rendered="#{bibiographieBean.dtmdl.rowCount eq 0}">
@@ -46,7 +44,7 @@
 											style="font-size: 11px; font-weight: bold; text-align: center;">
 											<div class="row">
 												<img
-													src='#{item.utilisateur !=null and item.utilisateur.photoPath !=null   ?  ("../resources/users/thumbnail/".concat(item.utilisateur.photoPath.photoPath)  ): "../resources/users/NoProfile.png"}'
+													src='#{item.utilisateur !=null and item.utilisateur.photoPath !=null   ?  ("../resources/users/thumbnail/".concat(item.utilisateur.photoPath)  ): "../resources/users/NoProfile.png"}'
 													height="150" width="150" />
 											</div>
 											<div class="row">

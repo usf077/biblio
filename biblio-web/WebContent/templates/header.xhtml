@@ -22,15 +22,15 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <h:panelGroup rendered="#{user==null}">
-                        <li><a href="../users/create.xhtml"><span class="glyphicon glyphicon-user"></span> Créer votre profile</a></li>
+                        <li><a href="../users/createOrUpdate.xhtml"><span class="glyphicon glyphicon-user"></span> Créer votre profile</a></li>
                         <li><a href="../users/login.xhtml"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{user!=null}">
 
                         <h:form id="logoutForm" class="navbar-form navbar-right ">
-                            <h:commandLink id="logout"  action="#{usersBean.logout}"> <span class="glyphicon glyphicon-log-out"></span> Log Out </h:commandLink>
-                            </h:form>
-                            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Hello ${user.nom}  ${user.prenom} </a></li>
+                            <li><h:commandLink action="#{usersBean.update}"> <span class="glyphicon glyphicon-user"></span> Hello ${user.nom}  ${user.prenom} </h:commandLink></li>
+                            <li><h:commandLink id="logout"  action="#{usersBean.logout}"> <span class="glyphicon glyphicon-log-out"></span> Log Out </h:commandLink></li>
+                    </h:form>
                     </h:panelGroup>
 
                 </ul>

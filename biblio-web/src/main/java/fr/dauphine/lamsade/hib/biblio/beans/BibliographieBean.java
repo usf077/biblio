@@ -242,14 +242,11 @@ public class BibliographieBean {
 		return "home";
 	}
 
-	
-	 public void init() {
-	    	if (!FacesContext.getCurrentInstance().isPostback()) {
-	    		searchTxt = null;
-	    		searchSelectectedType = 0;
-	    		dtmdl = null;
-	    	}
-		}
-	
+	public String init() {
+		recreateModel();
+		searchTxt = null;
+		searchSelectectedType = 0;
+		return "app-main";
+	}
 
 }

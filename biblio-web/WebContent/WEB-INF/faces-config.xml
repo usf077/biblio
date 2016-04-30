@@ -17,7 +17,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>create</from-outcome>
-            <to-view-id>/users/create.xhtml</to-view-id>            
+            <to-view-id>/users/createOrUpdate.xhtml</to-view-id>            
         </navigation-case>
         <navigation-case>
             <from-outcome>app-main</from-outcome>

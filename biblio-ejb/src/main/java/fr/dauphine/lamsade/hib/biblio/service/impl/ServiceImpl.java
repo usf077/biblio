@@ -29,7 +29,7 @@ import fr.dauphine.lamsade.hib.biblio.service.inter.ICommonService;
 public abstract class ServiceImpl<T> implements ICommonService<T> {
     
 	protected Class<T> _type;
-	private static final Logger logger = Logger.getLogger(ServiceImpl.class.toString());
+	protected static final Logger logger = Logger.getLogger(ServiceImpl.class.toString());
 
 	@PersistenceContext
 	protected EntityManager em;
