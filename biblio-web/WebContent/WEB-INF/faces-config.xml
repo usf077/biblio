@@ -47,5 +47,11 @@
             <redirect/>
         </navigation-case>
         
+        <navigation-case>
+            <from-outcome>updateBibio</from-outcome>
+            <to-view-id>/bibliographies/update.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
    </navigation-rule>
 </faces-config>

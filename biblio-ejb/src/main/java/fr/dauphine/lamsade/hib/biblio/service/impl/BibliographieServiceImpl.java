@@ -131,6 +131,69 @@ public class BibliographieServiceImpl extends ServiceImpl<Bibliographie> impleme
         javax.persistence.Query q = em.createQuery(cq);
         return  (Bibliographie) q.getSingleResult();
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public int count(int idUser) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		Metamodel m = em.getMetamodel();
+		EntityType<Bibliographie> Bibliographie_ =  m.entity(Bibliographie.class);
+        Expression e=null;
+        CriteriaQuery cq = cb.createQuery();
+        Root<Bibliographie> biblio = cq.from(Bibliographie.class);
+        Join<Bibliographie, Utilisateur> Userbiblio = (Join<Bibliographie, Utilisateur>) biblio.fetch(Bibliographie_.getSingularAttribute("utilisateur", Utilisateur.class), JoinType.LEFT);
+        biblio.fetch(Bibliographie_.getList("auteurs", Auteur.class) , JoinType.LEFT);
+        biblio.fetch(Bibliographie_.getList("commentaires", Commentaire.class), JoinType.LEFT);
+        biblio.fetch(Bibliographie_.getSingularAttribute("typeBibliographie", TypeBibliographie.class), JoinType.LEFT);
+        
+        
+        if (idUser != 0) {
+            e = cb.equal(Userbiblio.get("idUtilisateur"), idUser);
+        }
+        if (e!=null){
+            cq.where(e);
+        }
+        cq.select(biblio).distinct(true);
+        cq.select(em.getCriteriaBuilder().countDistinct(biblio));
+        javax.persistence.Query q = em.createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
+	}
+
+	@Override
+	public List<Bibliographie> findByUserIdRestrictedList(int idUser, int startPosition, int nbElements, String orderBy,
+			String orderSens) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		Metamodel m = em.getMetamodel();
+		EntityType<Bibliographie> Bibliographie_ =  m.entity(Bibliographie.class);
+        Expression e=null;
+        CriteriaQuery cq = cb.createQuery();
+        Root<Bibliographie> biblio = cq.from(Bibliographie.class);
+        Join<Bibliographie, Utilisateur> Userbiblio = (Join<Bibliographie, Utilisateur>) biblio.fetch(Bibliographie_.getSingularAttribute("utilisateur", Utilisateur.class), JoinType.LEFT);
+        biblio.fetch(Bibliographie_.getList("auteurs", Auteur.class) , JoinType.LEFT);
+        biblio.fetch(Bibliographie_.getList("commentaires", Commentaire.class), JoinType.LEFT);
+        biblio.fetch(Bibliographie_.getSingularAttribute("typeBibliographie", TypeBibliographie.class), JoinType.LEFT);
+        
+        if (idUser != 0) {
+            e = cb.equal(Userbiblio.get("idUtilisateur"), idUser);
+        }
+        if (e!=null){
+            cq.where(e);
+        }
+        if ( orderSens.equalsIgnoreCase("ASC") )
+        {
+        	cq.orderBy(cb.asc(biblio.get(orderBy)));
+        }
+        else
+        {
+        	cq.orderBy(cb.desc(biblio.get(orderBy)));
+        }
+        cq.select(biblio).distinct(true);
+        javax.persistence.Query q = em.createQuery(cq);
+        q.setMaxResults(nbElements);
+        q.setFirstResult(startPosition);
+        logger.log(Level.INFO, "find findByUserIdRestrictedList of class " +_type.getName() + "size :"  + q.getResultList().size() );
+        return q.getResultList();
+       
+	}
 
 	
    

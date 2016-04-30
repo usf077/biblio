@@ -8,22 +8,22 @@
 		
 		<div id="resulat">
 			<h:outputText escape="false"
-				rendered="#{bibiographieBean.dtmdl.rowCount eq 0}">
+				rendered="#{myBibiographiesBean.dtmdl.rowCount eq 0}">
 				<div class="panel panel-default ">
-					<div class="panel-body">#{bibiographieBean.pagination.itemsCount}
+					<div class="panel-body">#{myBibiographiesBean.pagination.itemsCount}
 						bibliographies trouvées</div>
 				</div>
 			</h:outputText>
 			<h:form>
-				<h:panelGroup rendered="#{bibiographieBean.dtmdl.rowCount > 0}">
+				<h:panelGroup rendered="#{myBibiographiesBean.dtmdl.rowCount > 0}">
 					<div class="panel-group">
 						<div class="panel panel-default ">
 							<div class="panel-body">
 								<h:outputText
-									value="#{bibiographieBean.pagination.pageFirstItem + 1}..#{bibiographieBean.pagination.pageLastItem + 1}/#{bibiographieBean.pagination.itemsCount} bibliographies trouvée(s)" />
+									value="#{myBibiographiesBean.pagination.pageFirstItem + 1}..#{myBibiographiesBean.pagination.pageLastItem + 1}/#{myBibiographiesBean.pagination.itemsCount} bibliographies trouvée(s)" />
 							</div>
 						</div>
-						<h:dataTable value="#{bibiographieBean.dtmdl}" var="item"
+						<h:dataTable value="#{myBibiographiesBean.dtmdl}" var="item"
 							styleClass="table table1" headerClass="headers"
 							rowClasses="oddRows,evenRows" border="1" cellspacing="0"
 							cellpadding="5" frame="box">
@@ -60,7 +60,7 @@
 											<div class="row">#{item.utilisateur !=null ?
 												item.utilisateur.age:""} ans</div>
 										</div>
-										<div class="col-md-6">
+										<div class="col-md-5">
 											<div class="row">
 												<b>Type bibliographie :</b>
 												#{item.typeBibliographie.libelle}
@@ -71,16 +71,27 @@
 
 											<div class="row">#{item.description}</div>
 										</div>
-										<div class="col-md-2">
+										<div class="col-md-3">
 											<br />
 											<div class="btn-group btn-group-justified">
 												<div class="btn-group">
 													<h:commandLink
-														action="#{CommentaireBean.Comment(item.idBiblio)}"
-														class="btn btn-info">
-														<span class="glyphicon glyphicon-pencil"></span> Commenter </h:commandLink>
-
+														action="#{myBibiographiesBean.Edit(item.idBiblio)}"
+														class="btn btn-danger">
+														<span class="glyphicon glyphicon-eye-pencil"></span> Editer
+													</h:commandLink>
 												</div>
+												<div class="btn-group">
+													<h:commandLink
+														action="#{myBibiographiesBean.RemoveBiblio(item.idBiblio)}"
+														class="btn btn-info">
+														<span class="glyphicon glyphicon-remove"></span> Supprimer </h:commandLink>
+												</div>
+												<h:commandLink
+														action="#{CommentaireBean.Comment(item.idBiblio)}"
+														class="btn btn-danger">
+														<span class="glyphicon glyphicon-eye-open"></span> Commentaires
+													</h:commandLink>
 											</div>
 										</div>
 									</div>
@@ -91,25 +102,25 @@
 							<ul class="pagination">
 
 								<li
-									class="#{!bibiographieBean.pagination.hasPreviousPage ? 'disabled' : ''}  "><h:commandLink
-										action="#{bibiographieBean.previous}"
+									class="#{!myBibiographiesBean.pagination.hasPreviousPage ? 'disabled' : ''}  "><h:commandLink
+										action="#{myBibiographiesBean.previous}"
 										class="glyphicon glyphicon-chevron-left"
-										disabled="#{!bibiographieBean.pagination.hasPreviousPage}" />
+										disabled="#{!myBibiographiesBean.pagination.hasPreviousPage}" />
 									&#xA0;</li>
 								<c:forEach begin="1"
-									end="#{bibiographieBean.pagination.itemsCount%bibiographieBean.pagination.pageSize==0 ? bibiographieBean.pagination.itemsCount/bibiographieBean.pagination.pageSize : (bibiographieBean.pagination.itemsCount/bibiographieBean.pagination.pageSize) +1 }"
+									end="#{myBibiographiesBean.pagination.itemsCount%myBibiographiesBean.pagination.pageSize==0 ? myBibiographiesBean.pagination.itemsCount/myBibiographiesBean.pagination.pageSize : (myBibiographiesBean.pagination.itemsCount/myBibiographiesBean.pagination.pageSize) +1 }"
 									var="a">
 									<li
-										class="#{bibiographieBean.pagination.page==(a-1) ? 'active' : ''} "><h:commandLink
-											action="#{bibiographieBean.goToPage(a)}" class="glyphicon"
-											disabled="#{bibiographieBean.pagination.page==(a-1)}"
+										class="#{myBibiographiesBean.pagination.page==(a-1) ? 'active' : ''} "><h:commandLink
+											action="#{myBibiographiesBean.goToPage(a)}" class="glyphicon"
+											disabled="#{myBibiographiesBean.pagination.page==(a-1)}"
 											value="#{a}" /> &#xA0;</li>
 								</c:forEach>
 								<li
-									class="#{!bibiographieBean.pagination.hasNextPage ? 'disabled' : '' } ">
-									<h:commandLink action="#{bibiographieBean.next}"
+									class="#{!myBibiographiesBean.pagination.hasNextPage ? 'disabled' : '' } ">
+									<h:commandLink action="#{myBibiographiesBean.next}"
 										class="glyphicon glyphicon-chevron-right"
-										disabled="#{!bibiographieBean.pagination.hasNextPage}" />
+										disabled="#{!myBibiographiesBean.pagination.hasNextPage}" />
 									&#xA0;
 								</li>
 

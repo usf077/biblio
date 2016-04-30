@@ -1,0 +1,186 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	template="../templates/main.xhtml">
+	<ui:define name="content">
+		<f:view>
+			<div id="resulat">
+				<h:form id="bibliographie" class="biblio-form">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Modifier Bibliographie</h3>
+						</div>
+						<div class="panel-body">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Bibliographie</h3>
+								</div>
+								<div class="panel-body">
+									<div class="form-bottom">
+
+										<div class="form-group">
+											<label class="sr-only" for="form-typeBiblio">Libelle</label>
+											<h:selectOneMenu
+												value="#{myBibiographiesBean.createBiblioSelectectedType}"
+												class="form-control">
+												<f:selectItems
+													value="#{bibiographieBean.typeBibliographies}" var="a"
+													itemLabel="#{a.libelle}" itemValue="#{a.idTypeBiblio}" />
+											</h:selectOneMenu>
+											<h:message for="form-typeBiblio" style="color: red" />
+										</div>
+										<div class="form-group">
+											<label class="sr-only" for="form-libelle">Libelle</label>
+											<h:inputText id="form-libelle"
+												requiredMessage="Le champ libelle est obligatoire"
+												title="Libelle" a:placeholder="Libelle" label="Libelle"
+												value="#{myBibiographiesBean.currentBibliographie.libelle}"
+												class="form-Prenom form-control" required="true" />
+											<h:message for="form-libelle" style="color: red" />
+										</div>
+										<div class="form-group">
+											<label class="sr-only" for="form-source">Source</label>
+											<h:inputText id="form-source"
+												requiredMessage="Le champ source est obligatoire"
+												title="Source" a:placeholder="Source" label="Source"
+												value="#{myBibiographiesBean.currentBibliographie.source}"
+												class="form-Prenom form-control" required="true" />
+											<h:message for="form-source" style="color: red" />
+										</div>
+										<div class="form-group">
+											<label class="sr-only" for="form-description">Description</label>
+											<h:inputTextarea id="form-description" title="description"
+												label="Description" class="form-description form-control"
+												a:placeholder="Description"
+												requiredMessage="Le champ description est obligatoire"
+												value="#{myBibiographiesBean.currentBibliographie.description}"
+												required="true" />
+											<h:message for="form-description" style="color: red" />
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h:commandLink type="submit" class="btn btn-info"
+								immediate="true" action="#{myBibiographiesBean.NewAuteur}">
+                                                    
+                                                    <span
+									class="glyphicon glyphicon-plus">Nouvel Auteur </span>
+							</h:commandLink>
+							<span class="pull-right"> &#xA0; &#xA0; Liste des auteurs</span>
+
+						</div>
+						<div class="panel-body">
+
+							<h:dataTable
+								value="#{myBibiographiesBean.currentBibliographie.auteurs}"
+								var="item" styleClass="table table1" binding="#{aut}"
+								headerClass="headers" rowClasses="oddRows,evenRows" border="0"
+								cellspacing="0" cellpadding="5" frame="box">
+								<h:column>
+									<h:panelGroup>
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												Auteur numéro #{aut.rowIndex +1}
+												<h:commandLink immediate="true" class="close"
+													action="#{myBibiographiesBean.RemoveAuteur(aut.rowIndex)}">
+																&#215;
+                  											 </h:commandLink>
+											</div>
+											<div class="panel-body">
+												<div class="col-sm-5">
+													<label class="control-label" for="form-nom">Nom :</label>
+													<h:inputText id="form-nom" title="Nom" a:placeholder="Nom"
+														label="Nom" value="#{item.nom}"
+														class="form-nom form-control"
+														disabled="#{item.editable eq false}" />
+												</div>
+												<div class="col-sm-5">
+													<label class="control-label" for="form-prenom">Prenom
+														:</label>
+													<h:inputText label="Prenom" id="form-prenom"
+														class="form-prenom form-control" a:placeholder="Prenom"
+														value="#{item.prenom}"
+														disabled="#{item.editable eq false}" />
+												</div>
+
+
+												<div class="btn-group col-sm-2">
+													<br />
+													<h:panelGroup layout="block" class="btn-group"
+														rendered="#{item.editable eq false}">
+														<h:commandLink
+															action="#{myBibiographiesBean.EditAuteur(aut.rowIndex)}"
+															class="btn btn-info">
+															<span class="glyphicon glyphicon-pencil"></span> Editer </h:commandLink>
+													</h:panelGroup>
+													<h:panelGroup layout="block" class="btn-group"
+														rendered="#{item.editable eq true}">
+														<h:commandLink
+															action="#{myBibiographiesBean.EndEditAuteur(aut.rowIndex)}"
+															class="btn btn-danger">
+															<span class="glyphicon glyphicon-ok"></span> Fin Edition </h:commandLink>
+													</h:panelGroup>
+												</div>
+											</div>
+										</div>
+									</h:panelGroup>
+								</h:column>
+							</h:dataTable>
+							<h:panelGroup layout="block" class="form-bottom"
+								rendered="#{myBibiographiesBean.addAuteur eq true }">
+
+								<div class="form-group">
+									<label class="sr-only" for="form-nom">Nom</label>
+									<h:inputText id="form-nom"
+										requiredMessage="Le champ Nom est obligatoire" title="Nom"
+										a:placeholder="Nom" label="Nom"
+										value="#{myBibiographiesBean.currentAuteurLastName}"
+										class="form-nom form-control" required="true" />
+									<h:message for="form-nom" style="color: red" />
+								</div>
+								<div class="form-group">
+									<label class="sr-only" for="form-prenom">Prenom</label>
+									<h:inputText id="form-prenom" title="description"
+										label="Prenom" class="form-prenom form-control"
+										a:placeholder="Prenom"
+										requiredMessage="Le champ prenom est obligatoire"
+										value="#{myBibiographiesBean.currentAuteurFirstName}"
+										required="true" />
+									<h:message for="form-prenom" style="color: red" />
+								</div>
+									<div class="btn-group">
+										<h:commandLink type="submit" class="btn btn-info"
+											action="#{myBibiographiesBean.AddAuteur}">
+                                                    Ajouter &#xA0; &#xA0;<span
+												class="glyphicon glyphicon-save"> </span>
+										</h:commandLink>
+									</div>
+							</h:panelGroup>
+
+						</div>
+					</div>
+
+					<div class="btn-group btn-group-justified">
+						<div class="btn-group">
+							<h:commandLink id="submit" type="submit" class="btn btn-danger"
+								action="#{myBibiographiesBean.UpdateBiblio}">
+                                                    Enregistrer les Modifications &#xA0; &#xA0;<span
+									class="glyphicon glyphicon-saved"> </span>
+							</h:commandLink>
+						</div>
+					</div>
+				</h:form>
+			</div>
+		</f:view>
+	</ui:define>
+</ui:composition>
+

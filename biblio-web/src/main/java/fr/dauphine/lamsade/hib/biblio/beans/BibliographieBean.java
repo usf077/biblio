@@ -187,6 +187,7 @@ public class BibliographieBean {
 				biblio.setTypeBibliographie(tb);
 			}
 			bibliographieService.add(biblio);
+			recreatePagination();
 			recreateModel();
 			biblio = null;
 
@@ -243,6 +244,7 @@ public class BibliographieBean {
 	}
 
 	public String init() {
+		recreatePagination();
 		recreateModel();
 		searchTxt = null;
 		searchSelectectedType = 0;

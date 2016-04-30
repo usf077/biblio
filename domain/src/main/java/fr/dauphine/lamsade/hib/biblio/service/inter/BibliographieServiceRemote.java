@@ -20,4 +20,8 @@ public interface BibliographieServiceRemote extends ICommonService<Bibliographie
 	public int count(String txt, int idTypeBiblio);
 	public List<Bibliographie>  findSearchRestrictedList(String txt, int idTypeBiblio,int startPosition, int nbElements, String orderBy, String orderSens);
 	public Bibliographie findByIdAndFetchAuteurs(int id);
+	public int count(int idUser);
+	public List<Bibliographie>  findByUserIdRestrictedList( int idUser,int startPosition, int nbElements, String orderBy, String orderSens);
+	
+	
 }

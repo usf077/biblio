@@ -26,6 +26,17 @@ public class Auteur implements Serializable {
 	@Version
 	private Integer version;
 
+	@Transient
+	private boolean isEditable;
+
+	public boolean isEditable() {
+		return isEditable;
+	}
+
+	public void setEditable(boolean isEditable) {
+		this.isEditable = isEditable;
+	}
+
 	//bi-directional many-to-many association to Bibliographie
 	@ManyToMany(mappedBy="auteurs")
 	private List<Bibliographie> bibliographies;

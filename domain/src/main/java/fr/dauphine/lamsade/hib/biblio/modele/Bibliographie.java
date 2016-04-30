@@ -46,7 +46,7 @@ public class Bibliographie implements Serializable {
 	private Utilisateur utilisateur;
 
 	//bi-directional many-to-many association to Auteur
-	@ManyToMany(cascade=CascadeType.PERSIST)
+	@ManyToMany(cascade={CascadeType.PERSIST,CascadeType.REMOVE})
 	@JoinTable(
 		name="bibliographoe_auteur"
 		, joinColumns={
@@ -58,8 +58,8 @@ public class Bibliographie implements Serializable {
 		)
 	private List<Auteur> auteurs;
 
-	//bi-directional many-to-one association to Commentaire
-	@OneToMany(mappedBy="bibliographie")
+	//bi-directional many-to-one association to mentaire
+	@OneToMany(mappedBy="bibliographie" ,cascade=CascadeType.REMOVE)
 	private List<Commentaire> commentaires;
 
 	public Bibliographie() {

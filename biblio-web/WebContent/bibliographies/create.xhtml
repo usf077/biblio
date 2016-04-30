@@ -68,10 +68,6 @@
 											<h:selectOneMenu
 												value="#{bibiographieBean.createBiblioSelectectedType}"
 												class="form-control">
-												<f:selectItem itemLabel="Veuillez choisir un type "  requiredMessage="Le champ TypeBiblio est obligatoire"
-													title="TypeBiblio" a:placeholder="TypeBiblio"
-													label="TypeBiblio" class="form-typeBiblio form-control"
-													required="true"/>
 												<f:selectItems
 													value="#{bibiographieBean.typeBibliographies}" var="a"
 													itemLabel="#{a.libelle}" itemValue="#{a.idTypeBiblio}"
