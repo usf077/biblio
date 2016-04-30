@@ -1,0 +1,241 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	template="../templates/main.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<f:event type="preRenderView" listener="#{CommentaireBean.init}" />
+		</f:metadata>
+		<div id="resulat">
+			<h:outputText escape="false"
+				rendered="#{CommentaireBean.dtmdl.rowCount == 0}">
+				<div class="panel panel-default ">
+					<div class="panel-body">#{CommentaireBean.pagination.itemsCount}
+						commenaires trouvées</div>
+				</div>
+			</h:outputText>
+
+
+			<h:panelGroup
+				rendered="#{CommentaireBean.currentBibliographie !=null}">
+				<div class="panel-group">
+					<div class="panel panel-default ">
+						<div class="panel-body">
+							<h:outputText
+								value="#{CommentaireBean.pagination.pageFirstItem + 1}..#{CommentaireBean.pagination.pageLastItem + 1}/#{CommentaireBean.pagination.itemsCount} commentaires trouvée(s)" />
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							#{CommentaireBean.currentBibliographie.libelle} <b> <h:outputText
+									value="[#{CommentaireBean.currentBibliographie.auteursName}]"
+									rendered="#{CommentaireBean.currentBibliographie.auteurs.size() >0 }" />
+							</b>
+							<h:outputText
+								value="[#{CommentaireBean.dtmdl.rowCount} commentaire(s)]"
+								rendered="#{CommentaireBean.dtmdl.rowCount >0 }"
+								class="pull-right" />
+						</div>
+
+						<div class="panel-body">
+							<div class="col-md-2"
+								style="font-size: 11px; font-weight: bold; text-align: center;">
+								<div class="row">
+									<img
+										src='#{CommentaireBean.currentBibliographie.utilisateur !=null and CommentaireBean.currentBibliographie.utilisateur.photoPath !=null   ?  ("../resources/users/thumbnail/".concat(CommentaireBean.currentBibliographie.photoPath)  ): "../resources/users/NoProfile.png"}'
+										height="150" width="150" />
+								</div>
+								<div class="row">
+									Date inscription:
+									<h:outputText
+										value="#{CommentaireBean.currentBibliographie.utilisateur.dateInscription}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputText>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="row">#{CommentaireBean.currentBibliographie.utilisateur
+									!=null ? CommentaireBean.currentBibliographie.utilisateur:""}</div>
+								<div class="row">#{CommentaireBean.currentBibliographie.utilisateur
+									!=null ?
+									CommentaireBean.currentBibliographie.utilisateur.age:""} ans</div>
+							</div>
+							<div class="col-md-5">
+								<div class="row">
+									<b>Type bibliographie :</b>
+									#{CommentaireBean.currentBibliographie.typeBibliographie.libelle}
+								</div>
+								<div class="row">
+									<b> Source bibliographie :</b>
+									#{CommentaireBean.currentBibliographie.source}
+								</div>
+
+								<div class="row">#{CommentaireBean.currentBibliographie.description}</div>
+							</div>
+						</div>
+					</div>
+					<h:form>
+						<h:dataTable value="#{CommentaireBean.dtmdl}" var="item"
+							styleClass="table table1" headerClass="headers"
+							rowClasses="oddRows,evenRows" border="1" cellspacing="0"
+							cellpadding="5" frame="box"
+							rendered="#{CommentaireBean.dtmdl.rowCount>0}">
+							<h:column>
+								<div class="col-md-11 pull-right">
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											Date Commentaire:
+											<h:outputText value="#{item.dateCommentaire}">
+												<f:convertDateTime pattern="dd/MM/yyyy" />
+											</h:outputText>
+											<h:outputText value="Evaluation :" class="pull-right" />
+										</div>
+
+										<div class="panel-body">
+											<div class="col-md-2"
+												style="font-size: 11px; font-weight: bold; text-align: center;">
+												<div class="row">
+													<img
+														src='#{item.utilisateur !=null and item.utilisateur.photoPath !=null   ?  ("../resources/users/thumbnail/".concat(item.utilisateur.photoPath)  ): "../resources/users/NoProfile.png"}'
+														height="150" width="150" />
+												</div>
+												<div class="row">
+													Date inscription:
+													<h:outputText value="#{item.utilisateur.dateInscription}">
+														<f:convertDateTime pattern="dd/MM/yyyy" />
+													</h:outputText>
+												</div>
+											</div>
+											<div class="col-md-2">
+												<div class="row">#{item.utilisateur !=null ?
+													item.utilisateur:""}</div>
+												<div class="row">#{item.utilisateur !=null ?
+													item.utilisateur.age:""} ans</div>
+											</div>
+											<div class="col-md-5">
+												<br />
+												<h:panelGroup layout="block" class="row"
+													rendered="#{item.editable eq false}">
+														#{item.commentaire}
+														</h:panelGroup>
+												<h:panelGroup layout="block" class="row"
+													rendered="#{item.editable eq true}">
+													<label class="sr-only" for="form-commentaire">Commentaire</label>
+													<h:inputTextarea id="form-commentaire" title="Commentaire"
+														label="Commentaire" class="form-commentaire form-control"
+														a:placeholder="Commentaire"
+														requiredMessage="Le champ commentaire est obligatoire"
+														value="#{CommentaireBean.commentaire}" required="true" />
+													<h:message for="form-commentaire" style="color: red" />
+												</h:panelGroup>
+											</div>
+											<div class="col-md-3">
+												<br />
+												<div class="btn-group btn-group-justified">
+													<h:panelGroup layout="block" class="btn-group"
+														rendered="#{user.idUtilisateur eq item.utilisateur.idUtilisateur and item.editable eq false}">
+														<h:commandLink action="#{CommentaireBean.Edit}"
+															immediate="true" class="btn btn-danger">
+															<span class="glyphicon glyphicon-eye-open"></span> Modifier </h:commandLink>
+													</h:panelGroup>
+													<h:panelGroup layout="block">
+														<h:commandLink type="submit" class="btn btn-danger"
+															rendered="#{item.editable eq true}"
+															action="#{CommentaireBean.UpdateComment(item.idCommentaire)}">
+				                                                   Enregistrer &#xA0; &#xA0;<span
+																class="glyphicon glyphicon-arrow-right"> </span>
+														</h:commandLink>
+													</h:panelGroup>
+													<h:panelGroup layout="block" class="btn-group"
+														rendered="#{user.idUtilisateur!=item.utilisateur.idUtilisateur}">
+														<h:commandLink action="#" class="btn btn-info">
+															<span class="glyphicon glyphicon-pencil"></span> Evaluer </h:commandLink>
+													</h:panelGroup>
+													<h:panelGroup layout="block" class="btn-group"
+														rendered="#{user.idUtilisateur==item.utilisateur.idUtilisateur}">
+														<h:commandLink
+															action="#{CommentaireBean.Remove(item.idCommentaire)}"
+															class="btn btn-info">
+															<span class="glyphicon glyphicon-pencil"></span> Supprimer </h:commandLink>
+													</h:panelGroup>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</h:column>
+						</h:dataTable>
+					</h:form>
+					<h:form>
+						<div class="form-bottom">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">Nouveau Commentaire</h3>
+								</div>
+								<div class="panel-body">
+									<div class="form-bottom">
+										<div class="form-group">
+											<label class="sr-only" for="form-commentaire">Commentaire</label>
+											<h:inputTextarea id="form-commentaire" title="Commentaire"
+												label="Commentaire" class="form-commentaire form-control"
+												a:placeholder="Commentaire"
+												requiredMessage="Le champ commentaire est obligatoire"
+												value="#{CommentaireBean.commentaire}" required="true" />
+											<h:message for="form-commentaire" style="color: red" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="btn-group btn-group-justified">
+							<div class="btn-group">
+								<h:commandLink id="AddCommCommande" type="submit"
+									class="btn btn-danger"
+									action="#{CommentaireBean.AddNewComment}">
+				                                                   Ajouter Commentaire &#xA0; &#xA0;<span
+										class="glyphicon glyphicon-arrow-right"> </span>
+								</h:commandLink>
+							</div>
+						</div>
+					</h:form>
+					<h:form>
+						<div class="text-center ">
+							<ul class="pagination">
+
+								<li
+									class="#{!CommentaireBean.pagination.hasPreviousPage ? 'disabled' : ''}  "><h:commandLink
+										action="#{CommentaireBean.previous}"
+										class="glyphicon glyphicon-chevron-left"
+										disabled="#{!CommentaireBean.pagination.hasPreviousPage}" />
+									&#xA0;</li>
+								<c:forEach begin="1"
+									end="#{CommentaireBean.pagination.itemsCount%CommentaireBean.pagination.pageSize==0 ? CommentaireBean.pagination.itemsCount/CommentaireBean.pagination.pageSize : (CommentaireBean.pagination.itemsCount/CommentaireBean.pagination.pageSize) +1 }"
+									var="a">
+									<li
+										class="#{CommentaireBean.pagination.page==(a-1) ? 'active' : ''} "><h:commandLink
+											action="#{CommentaireBean.goToPage(a)}" class="glyphicon"
+											disabled="#{CommentaireBean.pagination.page==(a-1)}"
+											value="#{a}" /> &#xA0;</li>
+								</c:forEach>
+								<li
+									class="#{!CommentaireBean.pagination.hasNextPage ? 'disabled' : '' } ">
+									<h:commandLink action="#{CommentaireBean.next}"
+										class="glyphicon glyphicon-chevron-right"
+										disabled="#{!CommentaireBean.pagination.hasNextPage}" />
+									&#xA0;
+								</li>
+
+							</ul>
+						</div>
+					</h:form>
+				</div>
+			</h:panelGroup>
+		</div>
+
+	</ui:define>
+</ui:composition>
+
