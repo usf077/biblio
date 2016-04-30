@@ -42,7 +42,7 @@
 								<div class="form-top-left">
 									<!--                                         <i class="glyphicon glyphicon-user"></i> -->
 									<h:graphicImage
-										value="#{ empty user.photoPath ? '../resources/users/NoProfile.png' : '' }"
+										value='#{ user.photoPath != null  ?  ("../resources/users/thumbnail/".concat(user.photoPath)  ) : "../resources/users/NoProfile.png"}'
 										height="150" width="150" class="image-border" />
 								</div>
 								<div class="form-top-right">
